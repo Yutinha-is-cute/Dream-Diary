@@ -11,6 +11,7 @@ import android.media.MediaCodecList
 import android.os.Build
 import android.os.Bundle
 import com.ryanheise.audioservice.AudioServiceFragmentActivity
+import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.embedding.engine.renderer.FlutterRenderer
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
@@ -30,7 +31,13 @@ class MainActivity : AudioServiceFragmentActivity() {
       FlutterRenderer.debugForceSurfaceProducerGlTextures = true
     }
     super.onCreate(savedInstanceState)
-    MethodChannel(flutterEngine!!.dartExecutor.binaryMessenger, "dream_diary/launcher")
+  }
+
+  override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
+    super.configureFlutterEngine(flutterEngine)
+    // Register only after the host has provided the engine; onCreate can run
+    // before FlutterFragmentActivity's fragment/engine is attached.
+    MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "dream_diary/launcher")
       .setMethodCallHandler { call, result -> handleLauncher(call, result) }
   }
 

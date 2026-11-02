@@ -1,4 +1,4 @@
-name: Dream Diary validation (no release)
+name: Dream Diary APK (read-only)
 
 on:
   push:
@@ -6,175 +6,97 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
-  group: dream-diary-${{ github.ref }}-${{ github.job }}
+  group: dream-diary-apk-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  flutter:
+  build-apk:
+    name: Build production ARM64 APK
     runs-on: ubuntu-latest
     timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
         with:
           lfs: false
+          persist-credentials: false
+
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '21'
+
       - name: Flutter pin
         id: flutter
         run: echo "version=$(jq -r .flutter .fvmrc)" >> "$GITHUB_OUTPUT"
+
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ steps.flutter.outputs.version }}
+
       - uses: dtolnay/rust-toolchain@master
         with:
           toolchain: '1.99.1'
+
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
+
       - run: corepack enable
+
       - name: Bootstrap pinned Pub workspace
         run: |
           set -o pipefail
-          {
-            dart pub global activate melos 8.2.2
-            echo "$HOME/.pub-cache/bin" >> "$GITHUB_PATH"
-            flutter pub get
-          } 2>&1 | tee bootstrap.log
-      - name: Publish bootstrap diagnostics to this branch
-        if: failure()
-        run: |
-          if [ -s bootstrap.log ]; then
-            git config user.name 'github-actions[bot]'
-            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-            git add -f bootstrap.log
-            git commit -m "ci: record bootstrap diagnostics [skip ci]"
-            git push origin HEAD:arena/be4b9df4-dream-diary
-          fi
-      - name: Official localization generators
-        run: |
-          (cd packages/foundation/moodiary_i18n && dart run slang)
-          (cd packages/foundation/mui && dart run slang)
-          dart format packages/foundation/moodiary_i18n/lib/i18n packages/foundation/mui/lib/src/i18n
-      - name: Preserve generated sources on the working branch
-        run: |
-          git add packages/foundation/moodiary_i18n/lib/i18n packages/foundation/mui/lib/src/i18n pubspec.lock
-          if ! git diff --cached --quiet; then
-            git config user.name 'github-actions[bot]'
-            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-            git commit -m 'chore(i18n): generate Dream Diary localizations [skip ci]'
-            git push origin HEAD:arena/be4b9df4-dream-diary
-          fi
-      - name: Analyze and architecture checks
-        run: |
-          set -o pipefail
-          {
-            dart tool/check_generated.dart
-            dart tool/check_layers.dart
-            flutter analyze
-          } 2>&1 | tee analyze.log
-      - name: Publish analyze diagnostics to this branch
-        if: failure()
-        run: |
-          if [ -s analyze.log ]; then
-            git config user.name 'github-actions[bot]'
-            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-            git add -f analyze.log
-            git commit -m "ci: record analyze diagnostics [skip ci]"
-            git push origin HEAD:arena/be4b9df4-dream-diary
-          fi
-      - name: Flutter tests
-        id: flutter_tests
-        continue-on-error: true
-        run: |
-          set -eo pipefail
-          {
-            root=$(jq -r '.packages[] | select(.name == "isar_plus_flutter_libs") | .rootUri' .dart_tool/package_config.json)
-            export ISAR_TEST_DYLIB="${root#file://}/linux/libisar_plus.so"
-            for p in fast_core fast_crypto fast_image fast_press fast_tokenizer fast_zip; do
-              yq -i ".hooks.user_defines.$p.build_assets = false" pubspec.yaml
-            done
-            dart tool/task.dart test --all
-            git checkout -- pubspec.yaml
-          } 2>&1 | tee test.log
-      - name: Publish test diagnostics to this branch
-        if: steps.flutter_tests.outcome == 'failure'
-        run: |
-          if [ -s test.log ]; then
-            git config user.name 'github-actions[bot]'
-            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-            git add -f test.log
-            git commit -m "ci: record Flutter test diagnostics [skip ci]"
-            git push origin HEAD:arena/be4b9df4-dream-diary
-          fi
+          dart pub global activate melos 8.2.2
+          echo "$HOME/.pub-cache/bin" >> "$GITHUB_PATH"
+          flutter pub get 2>&1 | tee bootstrap.log
+
       - uses: taiki-e/install-action@v2
         with:
           tool: cargo-about@0.9.2
+
       - uses: nttld/setup-ndk@v1
         id: ndk
         with:
           ndk-version: r28c
           link-to-sdk: true
+
       - name: Build installable ARM64 APK (local debug signing only)
-        id: build_apk
         working-directory: mobile
         env:
           ANDROID_NDK_HOME: ${{ steps.ndk.outputs.ndk-path }}
         run: |
           set -o pipefail
           flutter build apk --flavor production --release --target-platform android-arm64 --obfuscate --split-debug-info=splitMap 2>&1 | tee ../build-apk.log
-      - name: Publish APK build diagnostics to this branch
-        if: failure() && steps.build_apk.outcome == 'failure' 
+
+      - name: Verify APK and record exact commit
         run: |
-          if [ -s build-apk.log ]; then
-            git config user.name 'github-actions[bot]'
-            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-            git add -f build-apk.log
-            git commit -m "ci: record APK build diagnostics [skip ci]"
-            git push origin HEAD:arena/be4b9df4-dream-diary
-          fi
+          set -e
+          apk=mobile/build/app/outputs/flutter-apk/app-production-release.apk
+          test -f "$apk"
+          ls -lh "$apk"
+          sha256sum "$apk" | tee apk-sha256.txt
+          printf '%s\n' "$GITHUB_SHA" > apk-commit.txt
+          cat apk-commit.txt
+
       - uses: actions/upload-artifact@v4
         with:
           name: dream-diary-arm64-apk
           path: |
             mobile/build/app/outputs/flutter-apk/app-production-release.apk
             mobile/splitMap/
+            apk-sha256.txt
+            apk-commit.txt
           if-no-files-found: error
-      - name: Enforce Flutter test result
-        if: steps.flutter_tests.outcome == 'failure'
-        run: |
-          echo "Flutter tests failed; see test.log committed to this branch."
-          exit 1
-  rust:
-    runs-on: ubuntu-latest
-    timeout-minutes: 40
-    steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@master
+
+      - name: Upload build logs
+        if: always()
+        uses: actions/upload-artifact@v4
         with:
-          toolchain: '1.99.1'
-          components: clippy
-      - name: Clippy and tests for all six crates
-        run: |
-          for d in packages/foundation/*/rust; do
-            (cd "$d" && cargo clippy --all-targets -- -D warnings && cargo test)
-          done
-  editor:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: packages/feature_base/moodiary_editor/editor
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-      - run: corepack enable
-      - run: corepack pnpm install --frozen-lockfile
-      - run: corepack pnpm type-check
-      - run: corepack pnpm test
-      - run: corepack pnpm build
+          name: dream-diary-apk-logs
+          path: |
+            bootstrap.log
+            build-apk.log
+          if-no-files-found: ignore

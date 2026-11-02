@@ -141,7 +141,10 @@ void main() {
                 -300,
                 scrollable: find.byType(Scrollable).first,
               );
-              await tester.ensureVisible(yearOption, alignment: 0.5);
+              await Scrollable.ensureVisible(
+                tester.element(yearOption),
+                alignment: 0.5,
+              );
               await tester.pumpAndSettle();
               await tester.tap(yearOption);
               await tester.pumpAndSettle();

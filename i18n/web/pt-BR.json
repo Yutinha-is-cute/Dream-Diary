@@ -1,0 +1,44 @@
+{
+  "content": "Texto",
+  "wordCount": "{count} caracteres",
+  "titlePlaceholder": "Título",
+  "video": {
+    "play": "Reproduzir",
+    "pause": "Pausar",
+    "mute": "Silenciar",
+    "unmute": "Ativar som",
+    "progressLabel": "Progresso do vídeo",
+    "fullscreen": "Tela cheia"
+  },
+  "audio": {
+    "play": "Reproduzir",
+    "pause": "Pausar",
+    "progressLabel": "Progresso do áudio",
+    "defaultName": "Áudio"
+  },
+  "attachment": {
+    "open": "Abrir anexo",
+    "defaultName": "Anexo"
+  },
+  "code": {
+    "plainText": "Texto simples",
+    "copy": "Copiar",
+    "copied": "Copiado"
+  },
+  "link": {
+    "searching": "Pesquisando…",
+    "prompt": "Digite uma palavra-chave para pesquisar entradas…",
+    "empty": "Nenhuma entrada encontrada"
+  },
+  "meta": {
+    "mood": "Humor",
+    "weather": "Clima",
+    "place": "Localização",
+    "category": "Categoria",
+    "tag": "Tag",
+    "addTag": "Adicionar tag",
+    "removeTag": "Remover tag",
+    "moodUnset": "Não registrado",
+    "moodClear": "Não registrar"
+  }
+}

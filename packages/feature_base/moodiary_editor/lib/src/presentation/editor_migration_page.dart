@@ -173,7 +173,7 @@ class _EditorMigrationPageState extends State<EditorMigrationPage> {
     List<MigrationFailure> failures = const [],
   }) async {
     final buffer = StringBuffer()
-      ..writeln('Moodiary migration failure log')
+      ..writeln('Dream Diary migration failure log')
       ..writeln('time: ${DateTime.now().toIso8601String()}')
       ..writeln('stage: $stage');
     if (error != null) {

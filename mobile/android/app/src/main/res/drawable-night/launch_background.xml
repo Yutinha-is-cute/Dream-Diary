@@ -6,5 +6,5 @@
         android:width="192dp"
         android:height="192dp"
         android:gravity="center"
-        android:drawable="@drawable/ic_splash_icon"/>
+        android:drawable="@drawable/dream_diary_splash"/>
 </layer-list>

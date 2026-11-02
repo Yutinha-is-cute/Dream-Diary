@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import en from '../../../../../../../i18n/web/en.json'
 import zh from '../../../../../../../i18n/web/zh.json'
+import ptBR from '../../../../../../../i18n/web/pt-BR.json'
 import { setLocale, t } from '.'
 
 const keys = (node: unknown, prefix = ''): string[] =>
@@ -11,11 +12,14 @@ const keys = (node: unknown, prefix = ''): string[] =>
 describe('web strings', () => {
   it('zh and en carry the same keys', () => {
     expect(keys(en).sort()).toEqual(keys(zh).sort())
+    expect(keys(en).sort()).toEqual(keys(ptBR).sort())
   })
 
   it('switches by locale and fills parameters', () => {
     setLocale('en')
     expect(t('wordCount', { count: 3 })).toBe('3 characters')
+    setLocale('pt-BR')
+    expect(t('wordCount', { count: 3 })).toBe('3 caracteres')
     setLocale('zh')
     expect(t('wordCount', { count: 3 })).toBe('3 字')
   })

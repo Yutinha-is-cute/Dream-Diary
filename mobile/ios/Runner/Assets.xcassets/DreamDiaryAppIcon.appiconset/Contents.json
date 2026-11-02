@@ -1,0 +1,116 @@
+{
+  "images": [
+    {
+      "filename": "dream-20.png",
+      "idiom": "iphone",
+      "scale": "2x",
+      "size": "10x10"
+    },
+    {
+      "filename": "dream-20.png",
+      "idiom": "ipad",
+      "scale": "1x",
+      "size": "20x20"
+    },
+    {
+      "filename": "dream-29.png",
+      "idiom": "iphone",
+      "scale": "2x",
+      "size": "14x14"
+    },
+    {
+      "filename": "dream-29.png",
+      "idiom": "ipad",
+      "scale": "1x",
+      "size": "29x29"
+    },
+    {
+      "filename": "dream-40.png",
+      "idiom": "iphone",
+      "scale": "2x",
+      "size": "20x20"
+    },
+    {
+      "filename": "dream-40.png",
+      "idiom": "ipad",
+      "scale": "1x",
+      "size": "40x40"
+    },
+    {
+      "filename": "dream-58.png",
+      "idiom": "iphone",
+      "scale": "2x",
+      "size": "29x29"
+    },
+    {
+      "filename": "dream-60.png",
+      "idiom": "iphone",
+      "scale": "2x",
+      "size": "30x30"
+    },
+    {
+      "filename": "dream-60.png",
+      "idiom": "ipad",
+      "scale": "1x",
+      "size": "60x60"
+    },
+    {
+      "filename": "dream-76.png",
+      "idiom": "ipad",
+      "scale": "1x",
+      "size": "76x76"
+    },
+    {
+      "filename": "dream-80.png",
+      "idiom": "iphone",
+      "scale": "2x",
+      "size": "40x40"
+    },
+    {
+      "filename": "dream-80.png",
+      "idiom": "ipad",
+      "scale": "1x",
+      "size": "80x80"
+    },
+    {
+      "filename": "dream-87.png",
+      "idiom": "iphone",
+      "scale": "2x",
+      "size": "43x43"
+    },
+    {
+      "filename": "dream-120.png",
+      "idiom": "iphone",
+      "scale": "2x",
+      "size": "60x60"
+    },
+    {
+      "filename": "dream-152.png",
+      "idiom": "ipad",
+      "scale": "1x",
+      "size": "152x152"
+    },
+    {
+      "filename": "dream-167.png",
+      "idiom": "ipad",
+      "scale": "1x",
+      "size": "167x167"
+    },
+    {
+      "filename": "dream-180.png",
+      "idiom": "iphone",
+      "scale": "2x",
+      "size": "90x90"
+    },
+    {
+      "filename": "dream-1024.png",
+      "idiom": "ios-marketing",
+      "scale": "1x",
+      "size": "1024x1024"
+    }
+  ],
+  "info": {
+    "author": "xcode",
+    "version": 1
+  }
+}

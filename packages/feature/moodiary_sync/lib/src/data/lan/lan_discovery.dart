@@ -16,7 +16,7 @@ class LanAdvertiser {
     try {
       final broadcast = BonsoirBroadcast(
         service: BonsoirService(
-          name: 'Moodiary · ${await AppInfo.getDeviceName()}',
+          name: 'Dream Diary · ${await AppInfo.getDeviceName()}',
           type: lanServiceType,
           port: port,
           attributes: lanTxtRecord(version),

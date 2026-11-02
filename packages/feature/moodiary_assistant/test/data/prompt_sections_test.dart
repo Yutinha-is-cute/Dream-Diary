@@ -38,7 +38,7 @@ void main() {
     test('分层顺序：身份 → 护栏 → 检索策略 → 人格 → 说明 → 工具目录', () {
       final prompt = build(notes: 'NOTES-MARK');
       final marks = [
-        'built-in assistant of Moodiary',
+        'built-in assistant of Dream Diary',
         'Ground rules',
         'Memory and retrieval policy',
         'You are a warm, grounded companion',

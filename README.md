@@ -1,3 +1,7 @@
+# Dream Diary
+
+Personalized fork of Moodiary by Yutinha-is-cute. Upstream credits, AGPL-3.0 license and original functionality are preserved. See [Dream Diary implementation](docs/dream-diary.md).
+
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="res/social_dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="res/social_light.svg">

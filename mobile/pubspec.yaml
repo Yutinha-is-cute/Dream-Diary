@@ -73,6 +73,7 @@ dev_dependencies:
 
 flutter:
   assets:
+    - assets/brand/
     # ignore: asset_directory_does_not_exist
     - assets/licenses/
 
@@ -80,6 +81,7 @@ flutter:
 
 flutter_gen:
   assets:
+    - assets/brand/
     exclude:
       - assets/licenses/**
   integrations:

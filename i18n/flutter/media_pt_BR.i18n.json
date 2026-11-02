@@ -1,0 +1,23 @@
+{
+  "title": "Mídia",
+  "typeImage": "Imagem",
+  "typeFile": "Anexo",
+  "empty": "Nenhuma mídia ainda",
+  "rename": "Renomear",
+  "imageCount(plural, param=count)": {
+    "one": "{count} Foto",
+    "other": "{count} Fotos"
+  },
+  "audioCount(plural, param=count)": {
+    "one": "{count} Áudio",
+    "other": "{count} Áudios"
+  },
+  "videoCount(plural, param=count)": {
+    "one": "{count} Vídeo",
+    "other": "{count} Vídeos"
+  },
+  "fileCount(plural, param=count)": {
+    "one": "{count} Anexo",
+    "other": "{count} Anexos"
+  }
+}

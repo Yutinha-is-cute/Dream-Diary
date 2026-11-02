@@ -1,5 +1,6 @@
 import en from '../../../../../../../i18n/web/en.json'
 import zh from '../../../../../../../i18n/web/zh.json'
+import ptBR from '../../../../../../../i18n/web/pt-BR.json'
 
 type Messages = typeof zh
 
@@ -12,7 +13,7 @@ type MessageKey = Leaves<Messages>
 let messages: Messages = zh
 
 export function setLocale(languageCode: string): void {
-  messages = languageCode === 'en' ? en : zh
+  messages = languageCode.startsWith('pt') ? ptBR : languageCode === 'en' ? en : zh
 }
 
 export function t(key: MessageKey, params?: Record<string, string | number>): string {

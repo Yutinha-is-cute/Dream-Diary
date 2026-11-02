@@ -37,6 +37,6 @@ class AppInfo {
       if (Platform.isWindows) return (await plugin.windowsInfo).computerName;
       if (Platform.isLinux) return (await plugin.linuxInfo).name;
     } catch (_) {}
-    return 'Moodiary';
+    return 'Dream Diary';
   }
 }

@@ -5,3 +5,22 @@
 *.jpg  filter=lfs diff=lfs merge=lfs -text
 *.jpeg filter=lfs diff=lfs merge=lfs -text
 *.png  filter=lfs diff=lfs merge=lfs -text
+
+# Small, reproducible Dream Diary identity assets are ordinary Git objects so
+# bootstrap/build does not depend on an upstream LFS quota. Keep upstream LFS rules.
+res/dream-diary/** -filter -diff -merge -text
+mobile/assets/brand/** -filter -diff -merge -text
+mobile/android/app/src/main/res/mipmap-*/ic_dream.png -filter -diff -merge -text
+mobile/android/app/src/main/res/mipmap-*/ic_mono.png -filter -diff -merge -text
+mobile/android/app/src/main/res/mipmap-*/ic_plum.png -filter -diff -merge -text
+mobile/android/app/src/main/res/drawable-nodpi/ic_dream_* -filter -diff -merge -text
+mobile/android/app/src/main/res/drawable-nodpi/ic_mono_* -filter -diff -merge -text
+mobile/android/app/src/main/res/drawable-nodpi/ic_plum_* -filter -diff -merge -text
+mobile/android/app/src/main/res/drawable-nodpi/dream_diary_splash.png -filter -diff -merge -text
+mobile/ios/Runner/Assets.xcassets/DreamDiaryAppIcon.appiconset/** -filter -diff -merge -text
+packages/feature_base/moodiary_components/assets/brand/dream_diary.png -filter -diff -merge -text
+mobile/android/app/src/main/res/mipmap-*/ic_launcher.webp -filter -diff -merge -text
+mobile/android/app/src/main/res/mipmap-*/ic_launcher_round.webp -filter -diff -merge -text
+packages/feature_base/moodiary_components/assets/brand/dream_diary.png -filter -diff -merge -text
+mobile/android/app/src/main/res/mipmap-*/ic_launcher.webp -filter -diff -merge -text
+mobile/android/app/src/main/res/mipmap-*/ic_launcher_round.webp -filter -diff -merge -text

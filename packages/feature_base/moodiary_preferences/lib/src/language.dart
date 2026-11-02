@@ -4,7 +4,8 @@ import 'package:moodiary_i18n/moodiary_i18n.dart';
 enum Language {
   system('system'),
   chinese('zh'),
-  english('en');
+  english('en'),
+  brazilianPortuguese('pt-BR');
 
   final String languageCode;
 
@@ -20,6 +21,8 @@ extension LanguageExtension on Language {
         return context.l10n.app.languageSimplifiedChinese;
       case .english:
         return context.l10n.app.languageEnglish;
+      case .brazilianPortuguese:
+        return context.l10n.app.languageBrazilianPortuguese;
     }
   }
 }

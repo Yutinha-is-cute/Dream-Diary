@@ -12,17 +12,18 @@ Future<void> applyStoredLanguage() async {
   );
   if (language == .system) {
     final systemLocale = await findSystemLocale();
-    final systemLanguageCode = systemLocale.contains('_')
-        ? systemLocale.split('_').first
-        : systemLocale;
+    final systemLanguageCode = systemLocale.replaceAll('_', '-');
     language = Language.values.firstWhere(
       (e) => e.languageCode == systemLanguageCode,
-      orElse: () => Language.english,
+      orElse: () => systemLanguageCode.startsWith('pt')
+          ? Language.brazilianPortuguese
+          : Language.english,
     );
   }
   Intl.defaultLocale = language.languageCode;
   await LocaleSettings.setLocale(switch (language) {
     .chinese => AppLocale.zh,
+    .brazilianPortuguese => AppLocale.ptBr,
     .english || .system => AppLocale.en,
   });
 }

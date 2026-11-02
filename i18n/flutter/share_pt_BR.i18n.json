@@ -1,0 +1,22 @@
+{
+  "sheetTitle": "Compartilhar esta entrada",
+  "sheetSubtitle": "Exportar como imagem ou documento — somente esta entrada",
+  "optionImage": "Imagem",
+  "optionImageSubtitle": "Imagem longa · pode ser salva em Fotos",
+  "optionMarkdownSubtitle": "Texto simples + recursos",
+  "optionDocxSubtitle": "Continue editando no Word",
+  "optionPdfSubtitle": "Layout fixo",
+  "optionPdfNeedFont": "Layout fixo · escolha uma fonte primeiro",
+  "previewTitle": "Prévia da imagem",
+  "previewSampleTitle": "Exemplo · primeira entrada",
+  "rendering": "Renderizando…",
+  "renderFailed": "Falha na renderização: {error}",
+  "empty": "Nada para compartilhar",
+  "saveToAlbum": "Salvar em Fotos",
+  "share": "Compartilhar",
+  "savedToAlbum": "Salvo em Fotos",
+  "savedToAlbumCount": "{count} imagens salvas em Fotos",
+  "saveToAlbumFailed": "Não foi possível salvar — verifique a permissão de Fotos",
+  "subject": "Compartilhado do Dream Diary",
+  "generating": "Gerando {format}…"
+}

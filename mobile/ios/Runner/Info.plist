@@ -14,7 +14,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Moodiary</string>
+	<string>Dream Diary</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -22,7 +22,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Moodiary</string>
+	<string>Dream Diary</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -34,25 +34,25 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>Moodiary 使用相机拍摄照片和视频，并添加到日记中。</string>
+	<string>Dream Diary 使用相机拍摄照片和视频，并添加到日记中。</string>
 	<key>NSBonjourServices</key>
 	<array>
 		<string>_moodiary._tcp</string>
 	</array>
 	<key>NSFaceIDUsageDescription</key>
-	<string>开启应用锁后，Moodiary 使用面容 ID 解锁 App。</string>
+	<string>开启应用锁后，Dream Diary 使用面容 ID 解锁 App。</string>
 	<key>NSLocalNetworkUsageDescription</key>
-	<string>Moodiary 使用本地网络，在同一 Wi-Fi 下与你的其它设备互传日记数据。</string>
+	<string>Dream Diary 使用本地网络，在同一 Wi-Fi 下与你的其它设备互传日记数据。</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Moodiary 仅在你使用 App 时获取位置，用于为日记添加地点和天气，不会在后台追踪你的位置。</string>
+	<string>Dream Diary 仅在你使用 App 时获取位置，用于为日记添加地点和天气，不会在后台追踪你的位置。</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Moodiary 在你使用 App 时获取位置，用于为日记添加地点和天气。</string>
+	<string>Dream Diary 在你使用 App 时获取位置，用于为日记添加地点和天气。</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Moodiary 使用麦克风录制语音和视频声音，并添加到日记中。</string>
+	<string>Dream Diary 使用麦克风录制语音和视频声音，并添加到日记中。</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Moodiary 将你拍摄或导出的照片和视频保存到照片图库。</string>
+	<string>Dream Diary 将你拍摄或导出的照片和视频保存到照片图库。</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Moodiary 读取照片图库，以便你将照片和视频添加到日记中。</string>
+	<string>Dream Diary 读取照片图库，以便你将照片和视频添加到日记中。</string>
 	<key>PHPhotoLibraryPreventAutomaticLimitedAccessAlert</key>
 	<true/>
 	<key>UIApplicationSceneManifest</key>

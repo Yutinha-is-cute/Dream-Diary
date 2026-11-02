@@ -178,5 +178,6 @@
   "fontNameFailed": "Could not read the font name",
   "fontExists": "That font is already installed",
   "routeErrorTitle": "Page not found",
-  "routeErrorBackHome": "Back to home"
+  "routeErrorBackHome": "Back to home",
+  "languageBrazilianPortuguese": "Português (Brasil)"
 }

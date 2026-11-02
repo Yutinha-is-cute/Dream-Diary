@@ -178,5 +178,6 @@
   "fontNameFailed": "字体名称获取失败",
   "fontExists": "字体已存在",
   "routeErrorTitle": "页面不存在",
-  "routeErrorBackHome": "返回首页"
+  "routeErrorBackHome": "返回首页",
+  "languageBrazilianPortuguese": "Português (Brasil)"
 }

@@ -1,0 +1,15 @@
+{
+  "recentAlbum": "Recentes",
+  "done": "Concluir",
+  "doneCount": "Concluir {count}/{max}",
+  "limitedTip": "O aplicativo só pode acessar as fotos e os vídeos selecionados",
+  "limitedManage": "Gerenciar",
+  "limitedEmptyImages": "Nenhuma foto acessível. Toque em Gerenciar para permitir o acesso a fotos.",
+  "limitedEmptyVideos": "Nenhum vídeo acessível. Toque em Gerenciar para permitir o acesso a vídeos.",
+  "permissionDenied": "Permita o acesso às fotos nas Configurações",
+  "a11ySelect": "Selecionar",
+  "a11yUnselect": "Desmarcar",
+  "capture": "Câmera",
+  "record": "Gravar",
+  "captureFailed": "Falha na captura"
+}

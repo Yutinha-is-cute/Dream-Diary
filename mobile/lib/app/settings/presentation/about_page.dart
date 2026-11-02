@@ -9,7 +9,7 @@ import 'package:moodiary_platform/moodiary_platform.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 const _legalese =
-    'Moodiary is free software licensed under the GNU Affero General Public '
+    'Dream Diary is free software, based on Moodiary, licensed under the GNU Affero General Public '
     'License v3.0. The licenses below cover the Dart, Rust and JavaScript '
     'packages it is built on.';
 
@@ -146,7 +146,7 @@ class _AboutPageState extends State<AboutPage> {
                       LucideIcons.chevronRight,
                       color: scheme.onSurfaceVariant,
                     ),
-                    onTap: () => _open('https://github.com/ZhuJHua/moodiary'),
+                    onTap: () => _open('https://github.com/Yutinha-is-cute/Dream-Diary'),
                   ),
                   SettingListTile(
                     leading: Icon(
@@ -160,7 +160,7 @@ class _AboutPageState extends State<AboutPage> {
                     ),
                     onTap: () => showLicensePage(
                       context: context,
-                      applicationName: 'Moodiary',
+                      applicationName: 'Dream Diary',
                       applicationVersion: appVersion,
                       applicationLegalese: _legalese,
                     ),
@@ -176,7 +176,7 @@ class _AboutPageState extends State<AboutPage> {
                       LucideIcons.chevronRight,
                       color: scheme.onSurfaceVariant,
                     ),
-                    onTap: () => _open('https://answer.moodiary.net'),
+                    onTap: () => _open('https://github.com/Yutinha-is-cute/Dream-Diary/issues'),
                   ),
                 ],
               ),
@@ -228,7 +228,7 @@ class _LogoTitle extends StatelessWidget {
       mainAxisSize: .min,
       spacing: 16,
       children: [
-        const MoodiaryLogo(size: 160),
+        ClipRRect(borderRadius: .circular(28), child: Image.asset('assets/brand/dream_diary_icon.png', width: 160, height: 160)),
         Row(
           mainAxisAlignment: .center,
           children: [

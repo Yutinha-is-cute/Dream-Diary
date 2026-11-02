@@ -1,54 +1,28 @@
 import 'dart:ui' as ui;
 
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter/services.dart';
 import 'package:mui/mui.dart';
 
-import '../gen/assets.gen.dart';
-
+/// Historical API name retained for source compatibility; displays Dream Diary.
 class MoodiaryLogo extends StatelessWidget {
   final double size;
-
   final Brightness? brightness;
-
   const MoodiaryLogo({super.key, this.size = 48, this.brightness});
-
+  static const _asset = 'packages/moodiary_components/assets/brand/dream_diary.png';
   @override
-  Widget build(BuildContext context) {
-    final dark =
-        (brightness ?? Theme.of(context).brightness) == Brightness.dark;
-    return _asset(dark).svg(width: size, height: size);
-  }
-
-  static SvgGenImage _asset(bool dark) =>
-      dark ? Assets.brand.logoDark : Assets.brand.logoLight;
-
-  static final Map<String, ui.Image> _rasterCache = {};
-
-  static Future<ui.Image?> rasterize({
-    required Brightness brightness,
-    required int pixels,
-  }) async {
-    final dark = brightness == Brightness.dark;
-    final key = '${dark ? 'dark' : 'light'}@$pixels';
-    final cached = _rasterCache[key];
-    if (cached != null) return cached;
+  Widget build(BuildContext context) => ClipRRect(
+    borderRadius: .circular(size * .18),
+    child: Image.asset(_asset, width: size, height: size, fit: .cover),
+  );
+  static ui.Image? _cached;
+  static Future<ui.Image?> rasterize({required Brightness brightness, required int pixels}) async {
+    if (_cached != null) return _cached;
     try {
-      // context 传 null：SvgAssetLoader 会回落到 rootBundle，离屏那侧拿不到 context
-      final info = await vg.loadPicture(
-        SvgAssetLoader(_asset(dark).path, packageName: SvgGenImage.package),
-        null,
-      );
-      final recorder = ui.PictureRecorder();
-      Canvas(recorder)
-        ..scale(pixels / info.size.width, pixels / info.size.height)
-        ..drawPicture(info.picture);
-      final picture = recorder.endRecording();
-      final image = await picture.toImage(pixels, pixels);
-      picture.dispose();
-      info.picture.dispose();
-      return _rasterCache[key] = image;
-    } catch (_) {
-      return null;
-    }
+      final bytes = await rootBundle.load(_asset);
+      final codec = await ui.instantiateImageCodec(bytes.buffer.asUint8List(), targetWidth: pixels, targetHeight: pixels);
+      final frame = await codec.getNextFrame();
+      codec.dispose();
+      return _cached = frame.image;
+    } catch (_) { return null; }
   }
 }

@@ -1,4 +1,0 @@
-  File "<string>", line 1
-    import json;d=json.load(open('.dart_tool/package_config.json'));print(next(p['rootUri'] for p in d['packages'] if p['name']=='isar_plus_flutter_libs')]
-                                                                                                                                                          ^
-SyntaxError: closing parenthesis ']' does not match opening parenthesis '('

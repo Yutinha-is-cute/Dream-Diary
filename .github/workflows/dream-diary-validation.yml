@@ -91,9 +91,9 @@ jobs:
         id: flutter_tests
         continue-on-error: true
         run: |
-          set -o pipefail
+          set -eo pipefail
           {
-            root=$(python3 -c "import json;d=json.load(open('.dart_tool/package_config.json'));print(next(p['rootUri'] for p in d['packages'] if p['name']=='isar_plus_flutter_libs')"])
+            root=$(jq -r '.packages[] | select(.name == "isar_plus_flutter_libs") | .rootUri' .dart_tool/package_config.json)
             export ISAR_TEST_DYLIB="${root#file://}/linux/libisar_plus.so"
             for p in fast_core fast_crypto fast_image fast_press fast_tokenizer fast_zip; do
               yq -i ".hooks.user_defines.$p.build_assets = false" pubspec.yaml

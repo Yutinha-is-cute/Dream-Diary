@@ -102,7 +102,7 @@ jobs:
             git checkout -- pubspec.yaml
           } 2>&1 | tee test.log
       - name: Publish test diagnostics to this branch
-        if: always()
+        if: steps.flutter_tests.outcome == 'failure'
         run: |
           if [ -s test.log ]; then
             git config user.name 'github-actions[bot]'

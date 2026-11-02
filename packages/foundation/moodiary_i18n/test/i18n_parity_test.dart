@@ -18,7 +18,15 @@ void main() {
       }
       return out;
     }
-    Set<String> vars(Object? value) => RegExp(r'\{(\w+)\}').allMatches(value.toString()).map((m) => m.group(1)!).toSet();
+    Set<String> vars(Object? value) {
+      if (value is Map<String, dynamic>) {
+        return value.values.expand(vars).toSet();
+      }
+      return RegExp(r'\{(\w+)(?::[^{}]*)?\}')
+          .allMatches(value.toString())
+          .map((m) => m.group(1)!)
+          .toSet();
+    }
     for (final base in baseFiles) {
       final name = base.uri.pathSegments.last.replaceAll('_zh.i18n.json', '');
       for (final locale in ['en', 'pt_BR']) {

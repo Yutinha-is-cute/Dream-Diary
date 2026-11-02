@@ -26,6 +26,25 @@ void main() {
     expect(l10n.insights.streakDays(count: 4), '4 days');
   });
 
+  test('pt-BR usa singular apenas para um e não cai no fallback do slang', () async {
+    await LocaleSettings.setLocale(AppLocale.ptBr);
+    expect(l10n.diary.timelineMonthCount(count: 1), '1 entrada');
+    expect(l10n.diary.timelineMonthCount(count: 0), '0 entradas');
+    expect(l10n.diary.timelineMonthCount(count: 2), '2 entradas');
+    expect(l10n.media.imageCount(count: 1), '1 foto');
+    expect(l10n.media.imageCount(count: 3), '3 fotos');
+    expect(l10n.insights.streakDays(count: 1), '1 dia');
+    expect(l10n.insights.streakDays(count: 4), '4 dias');
+    final printed = <String>[];
+    runZoned(
+      () => l10n.diary.timelineMonthCount(count: 3),
+      zoneSpecification: ZoneSpecification(
+        print: (_, _, _, line) => printed.add(line),
+      ),
+    );
+    expect(printed, isEmpty);
+  });
+
   test('渲染中文复数不再落到 slang 的兜底（那条 print 每次都打，release 也打）', () async {
     await LocaleSettings.setLocale(AppLocale.zh);
     final printed = <String>[];

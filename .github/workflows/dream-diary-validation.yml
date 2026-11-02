@@ -1,4 +1,4 @@
-name: Dream Diary APK (read-only)
+name: Dream Diary APK + R8 mapping (read-only)
 
 on:
   push:
@@ -14,7 +14,7 @@ concurrency:
 
 jobs:
   build-apk:
-    name: Build production ARM64 APK
+    name: Build production ARM64 APK with R8 mapping
     runs-on: ubuntu-latest
     timeout-minutes: 90
     steps:
@@ -71,24 +71,90 @@ jobs:
           set -o pipefail
           flutter build apk --flavor production --release --target-platform android-arm64 --obfuscate --split-debug-info=splitMap 2>&1 | tee ../build-apk.log
 
-      - name: Verify APK and record exact commit
+      - name: Verify APK, collect R8 mapping, and record exact commit
         run: |
-          set -e
+          set -euo pipefail
           apk=mobile/build/app/outputs/flutter-apk/app-production-release.apk
           test -f "$apk"
           ls -lh "$apk"
           sha256sum "$apk" | tee apk-sha256.txt
           printf '%s\n' "$GITHUB_SHA" > apk-commit.txt
-          cat apk-commit.txt
+
+          mkdir -p r8-mapping
+          mapfile -t mappings < <(find mobile/build -type f -name mapping.txt | sort)
+          if [ "${#mappings[@]}" -eq 0 ]; then
+            echo 'R8 mapping.txt was not produced; refusing to publish an APK without its mapping.' >&2
+            find mobile/build -maxdepth 6 -type d -name outputs -print >&2 || true
+            exit 1
+          fi
+          for m in "${mappings[@]}"; do
+            rel="${m#mobile/build/}"
+            dest="r8-mapping/$rel"
+            mkdir -p "$(dirname "$dest")"
+            cp "$m" "$dest"
+          done
+          find r8-mapping -type f -name mapping.txt -print0 | sort -z | xargs -0 sha256sum | tee r8-mapping-sha256.txt
+
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          prefixes = [
+              'cn.yooss.moodiary.MainActivity',
+              'com.ryanheise.audioservice.',
+              'io.flutter.embedding.android.FlutterFragment',
+              'io.flutter.embedding.android.FlutterActivityAndFragmentDelegate',
+              'io.flutter.embedding.engine.FlutterEngine',
+              'io.flutter.embedding.engine.dart.DartExecutor',
+              'io.flutter.embedding.engine.loader.FlutterLoader',
+              'io.flutter.embedding.engine.renderer.FlutterRenderer',
+          ]
+          obfuscated = re.compile(r' -> (?:[A-Za-z0-9_$.]*\.)?(qa0|va0):$')
+          out = []
+          for mp in sorted(Path('r8-mapping').rglob('mapping.txt')):
+              out.append(f'### {mp}')
+              keep = False
+              for line in mp.read_text(errors='replace').splitlines():
+                  if line.startswith('#'):
+                      out.append(line)
+                      continue
+                  if line and not line[0].isspace():
+                      keep = any(line.startswith(prefix) for prefix in prefixes) or bool(obfuscated.search(line))
+                  if keep:
+                      out.append(line)
+              out.append('')
+          Path('r8-mapping-excerpt.txt').write_text('\n'.join(out) + '\n')
+          PY
+
+          {
+            echo '## Dream Diary diagnostic APK'
+            echo
+            echo "- Commit: $GITHUB_SHA"
+            echo "- APK SHA-256: $(awk '{print $1}' apk-sha256.txt)"
+            echo '- R8 mapping SHA-256:'
+            echo '```'
+            cat r8-mapping-sha256.txt
+            echo '```'
+            echo
+            echo '## R8 mapping excerpt'
+            echo
+            echo '```'
+            head -c 60000 r8-mapping-excerpt.txt
+            echo
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - uses: actions/upload-artifact@v4
         with:
-          name: dream-diary-arm64-apk
+          name: dream-diary-arm64-apk-r8-mapping
           path: |
             mobile/build/app/outputs/flutter-apk/app-production-release.apk
             mobile/splitMap/
+            r8-mapping/
+            r8-mapping-excerpt.txt
             apk-sha256.txt
             apk-commit.txt
+            r8-mapping-sha256.txt
           if-no-files-found: error
 
       - name: Upload build logs

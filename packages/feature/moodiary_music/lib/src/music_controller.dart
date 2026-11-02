@@ -19,7 +19,7 @@ import 'music_track.dart';
 
 /// One player, one media session. Initialization never starts playback.
 class MusicController extends BaseAudioHandler with ChangeNotifier {
-  MusicController._(this.directory) : _player = AudioPlayer();
+  MusicController._(this.directory) : _player = AudioPlayer(maxSkipsOnError: 1000);
   final Directory directory;
   final AudioPlayer _player;
   final _lock = Lock();
@@ -39,6 +39,7 @@ class MusicController extends BaseAudioHandler with ChangeNotifier {
   late MusicRepeat repeat = MusicRepeat.values[MoodiaryKVs.musicRepeat.get()!.clamp(0, 2)];
   int _loadGeneration = 0;
   bool _disposed = false;
+  Timer? _persistTimer;
 
   static Future<MusicController> create() async {
     final dir = Directory(p.join(PlatformService.get().applicationSupportPath,
@@ -89,6 +90,7 @@ class MusicController extends BaseAudioHandler with ChangeNotifier {
     await _player.setLoopMode(_loopMode);
     await _reload(preload: false);
     if (tracks.isNotEmpty) await _player.seek(position, index: index);
+    _persistTimer = Timer.periodic(const Duration(seconds: 5), (_) => persistPosition());
     ready = true;
     notifyListeners();
   }
@@ -141,6 +143,7 @@ class MusicController extends BaseAudioHandler with ChangeNotifier {
         duration: t.durationMs == null ? null : Duration(milliseconds: t.durationMs!)));
   }
   void _onPlayback(PlaybackEvent event) {
+    if (_disposed) return;
     playing = _player.playing;
     position = _player.position;
     duration = _player.duration ?? duration;
@@ -170,6 +173,13 @@ class MusicController extends BaseAudioHandler with ChangeNotifier {
     error = null;
     try {
       if (_player.processingState == ProcessingState.idle) await _reload(wantPlaying: false);
+      // A deleted private copy must not stall the whole playlist.
+      for (var attempt = 0; attempt < tracks.length; attempt++) {
+        final track = current;
+        if (track != null && await available(track)) break;
+        final next = (index + 1) % tracks.length;
+        await _player.seek(Duration.zero, index: next);
+      }
       await _player.play();
     } catch (_) { error = 'playback'; notifyListeners(); }
   }
@@ -305,6 +315,7 @@ class MusicController extends BaseAudioHandler with ChangeNotifier {
   Future<void> persistPosition() async => MoodiaryKVs.musicPositionMs.set(position.inMilliseconds);
   Future<void> dispose() async {
     if (_disposed) return; _disposed = true; _loadGeneration++;
+    _persistTimer?.cancel();
     await persistPosition();
     for (final sub in _subs) { await sub.cancel(); }
     await _player.dispose(); super.dispose();

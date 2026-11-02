@@ -203,9 +203,9 @@ class MediaManager {
       final hasAccess = await Gal.hasAccess(toAlbum: true);
       if (!hasAccess) await Gal.requestAccess(toAlbum: true);
       if (type == .video) {
-        await Gal.putVideo(path, album: 'Moodiary');
+        await Gal.putVideo(path, album: 'Dream Diary');
       } else {
-        await Gal.putImage(path, album: 'Moodiary');
+        await Gal.putImage(path, album: 'Dream Diary');
       }
       return true;
     } catch (e) {

@@ -71,9 +71,22 @@ jobs:
           fi
       - name: Analyze and architecture checks
         run: |
-          dart tool/check_generated.dart
-          dart tool/check_layers.dart
-          flutter analyze
+          set -o pipefail
+          {
+            dart tool/check_generated.dart
+            dart tool/check_layers.dart
+            flutter analyze
+          } 2>&1 | tee analyze.log
+      - name: Publish analyze diagnostics to this branch
+        if: failure()
+        run: |
+          if [ -s analyze.log ]; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git add -f analyze.log
+            git commit -m "ci: record analyze diagnostics [skip ci]"
+            git push origin HEAD:arena/be4b9df4-dream-diary
+          fi
       - name: Flutter tests
         run: |
           root=$(python3 -c "import json;d=json.load(open('.dart_tool/package_config.json'));print(next(p['rootUri'] for p in d['packages'] if p['name']=='isar_plus_flutter_libs'))")

@@ -12,7 +12,7 @@ void main() {
       final out = <String, dynamic>{};
       for (final entry in map.entries) {
         final key = prefix.isEmpty ? entry.key : '$prefix.${entry.key}';
-        if (entry.value is Map<String, dynamic>) {
+        if (entry.value is Map<String, dynamic> && !entry.key.contains('(plural')) {
           out.addAll(flatten(entry.value as Map<String, dynamic>, key));
         } else { out[key] = entry.value; }
       }

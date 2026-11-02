@@ -59,6 +59,7 @@ void main() {
     setupPluralResolvers();
     // Load deferred translations outside the widget tests' fake async clock.
     await LocaleSettings.setLocale(AppLocale.en);
+    await LocaleSettings.setLocale(AppLocale.ptBr);
     await LocaleSettings.setLocale(AppLocale.zh);
   });
   late _Repository repository;
@@ -219,7 +220,7 @@ void main() {
   }
 
   for (final locale in AppLocale.values) {
-    for (final (scope, start, end, zhEyebrow, zhLabel, enEyebrow, enLabel) in [
+    for (final (scope, start, end, zhEyebrow, zhLabel, enEyebrow, enLabel, ptEyebrow, ptLabel) in [
       (
         MoodInsightsScope.month,
         DateTime(2026, 10),
@@ -228,6 +229,8 @@ void main() {
         '10月',
         '2026',
         'Oct',
+        '2026',
+        'out.',
       ),
       (
         MoodInsightsScope.year,
@@ -235,6 +238,8 @@ void main() {
         DateTime(2027),
         '',
         '2026年',
+        '',
+        '2026',
         '',
         '2026',
       ),
@@ -246,6 +251,8 @@ void main() {
         '18 – 24日',
         'Oct 2026',
         '18 – 24',
+        'out. de 2026',
+        '18 – 24',
       ),
       (
         MoodInsightsScope.week,
@@ -255,6 +262,8 @@ void main() {
         '9月28日 – 10月4日',
         '2026',
         'Sep 28 – Oct 4',
+        '2026',
+        '28 de set. – 4 de out.',
       ),
       (
         MoodInsightsScope.week,
@@ -264,6 +273,8 @@ void main() {
         '12月28日 – 1月3日',
         '2025 – 2026',
         'Dec 28 – Jan 3',
+        '2025 – 2026',
+        '28 de dez. – 3 de jan.',
       ),
     ]) {
       testWidgets('$locale $scope $start header labels and picker target', (
@@ -292,8 +303,16 @@ void main() {
         final label = tester.widget<Text>(
           find.byKey(const ValueKey('insights-period-label')),
         );
-        expect(eyebrow.data, locale == AppLocale.zh ? zhEyebrow : enEyebrow);
-        expect(label.data, locale == AppLocale.zh ? zhLabel : enLabel);
+        expect(eyebrow.data, switch (locale) {
+          AppLocale.zh => zhEyebrow,
+          AppLocale.ptBr => ptEyebrow,
+          _ => enEyebrow,
+        });
+        expect(label.data, switch (locale) {
+          AppLocale.zh => zhLabel,
+          AppLocale.ptBr => ptLabel,
+          _ => enLabel,
+        });
         expect(
           tester
               .getSize(find.byKey(const ValueKey('insights-period-eyebrow')))

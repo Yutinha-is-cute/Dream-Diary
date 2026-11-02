@@ -1106,20 +1106,20 @@ class _Translations$media$pt_BR extends Translations$media$zh {
 	@override String get empty => 'Nenhuma mídia ainda';
 	@override String get rename => 'Renomear';
 	@override String imageCount({required num count}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(count,
-		one: '${count} Foto',
-		other: '${count} Fotos',
+		one: '${count} foto',
+		other: '${count} fotos',
 	);
 	@override String audioCount({required num count}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(count,
-		one: '${count} Áudio',
-		other: '${count} Áudios',
+		one: '${count} áudio',
+		other: '${count} áudios',
 	);
 	@override String videoCount({required num count}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(count,
-		one: '${count} Vídeo',
-		other: '${count} Vídeos',
+		one: '${count} vídeo',
+		other: '${count} vídeos',
 	);
 	@override String fileCount({required num count}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('pt'))(count,
-		one: '${count} Anexo',
-		other: '${count} Anexos',
+		one: '${count} anexo',
+		other: '${count} anexos',
 	);
 }
 

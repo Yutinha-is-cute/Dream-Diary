@@ -34,6 +34,7 @@ Future<void> _initSystem() async {
 
   await bootstrapPlatform();
   await configureDependencies();
+  await bootstrapMusic();
   await AppLockPin.load();
 
   try {

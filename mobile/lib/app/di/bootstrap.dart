@@ -25,15 +25,18 @@ Future<void> bootstrapPlatform() async {
     log: logger.d,
   );
   AppLogger.configure(logFilePath: AppFiles.getErrorLogPath());
-  if (Platform.isAndroid) {
-    try {
-      final music = await MusicController.create();
-      getIt.registerSingleton<MusicController>(music);
-      MediaPlaybackCoordinator.registerMusicPause(music.pause);
-    } catch (e, s) {
-      // A broken audio file must never prevent the diary from opening.
-      logger.e('music theme init failed', error: e, stackTrace: s);
-    }
+}
+
+/// Must run after configureDependencies(): music preferences use the KV store.
+Future<void> bootstrapMusic() async {
+  if (!Platform.isAndroid) return;
+  try {
+    final music = await MusicController.create();
+    getIt.registerSingleton<MusicController>(music);
+    MediaPlaybackCoordinator.registerMusicPause(music.pause);
+  } catch (e, s) {
+    // A broken audio file must never prevent the diary from opening.
+    logger.e('music theme init failed', error: e, stackTrace: s);
   }
 }
 

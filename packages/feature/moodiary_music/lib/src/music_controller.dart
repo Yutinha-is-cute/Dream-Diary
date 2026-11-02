@@ -65,7 +65,7 @@ class MusicController extends BaseAudioHandler with ChangeNotifier {
       logger.e('music playlist load failed', error: e, stackTrace: s);
     }
     index = MoodiaryKVs.musicIndex.get()!.clamp(0, tracks.isEmpty ? 0 : tracks.length - 1);
-    position = Duration(milliseconds: MoodiaryKVs.musicPositionMs.get()!);
+    position = Duration(milliseconds: MoodiaryKVs.musicPositionMs.get()!.clamp(0, 1 << 62));
     await AudioService.init(builder: () => this, config: const AudioServiceConfig(
       androidNotificationChannelId: 'cn.yooss.moodiary.music',
       androidNotificationChannelName: 'Dream Diary · Tema musical',
@@ -258,6 +258,7 @@ class MusicController extends BaseAudioHandler with ChangeNotifier {
               written += chunk.length;
               if (written > maxBytes) throw const FormatException('size');
               sink.add(chunk);
+              if (written % (4 * 1024 * 1024) < chunk.length) await sink.flush();
             }
             await sink.flush();
           } finally { await sink.close(); }

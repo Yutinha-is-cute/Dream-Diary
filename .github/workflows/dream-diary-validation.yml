@@ -108,7 +108,19 @@ jobs:
         working-directory: mobile
         env:
           ANDROID_NDK_HOME: ${{ steps.ndk.outputs.ndk-path }}
-        run: flutter build apk --flavor production --release --target-platform android-arm64 --obfuscate --split-debug-info=splitMap
+        run: |
+          set -o pipefail
+          flutter build apk --flavor production --release --target-platform android-arm64 --obfuscate --split-debug-info=splitMap 2>&1 | tee ../build-apk.log
+      - name: Publish APK build diagnostics to this branch
+        if: failure()
+        run: |
+          if [ -s build-apk.log ]; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git add -f build-apk.log
+            git commit -m "ci: record APK build diagnostics [skip ci]"
+            git push origin HEAD:arena/be4b9df4-dream-diary
+          fi
       - uses: actions/upload-artifact@v4
         with:
           name: dream-diary-arm64-apk

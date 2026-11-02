@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:moodiary_components/moodiary_components.dart';
@@ -43,6 +45,7 @@ class SettingPage extends StatelessWidget {
           slivers: [
             const _FeatureSection(),
             const _DisplaySection(),
+            if (Platform.isAndroid) const _MusicSection(),
             const _PrivacySection(),
             const _DataSection(),
             const _MoreSection(),
@@ -129,6 +132,13 @@ class _DisplaySection extends ConsumerWidget {
             );
           },
         ),
+        if (Platform.isAndroid)
+          SettingListTile(
+            title: context.l10n.dream.iconTitle,
+            leading: _lead(context, LucideIcons.appWindow),
+            trailing: _chevron(context),
+            onTap: () => _openSetting(context, const LauncherIconRoute()),
+          ),
         SettingListTile(
           title: context.l10n.app.fontStyle,
           leading: _lead(context, LucideIcons.type),
@@ -150,6 +160,20 @@ class _DisplaySection extends ConsumerWidget {
       ],
     );
   }
+}
+
+class _MusicSection extends StatelessWidget {
+  const _MusicSection();
+  @override Widget build(BuildContext context) => MSliverSettingGroup(
+    title: context.l10n.dream.musicTitle,
+    children: [SettingListTile(
+      title: context.l10n.dream.musicTitle,
+      subtitle: context.l10n.dream.musicDescription,
+      leading: _lead(context, LucideIcons.music),
+      trailing: _chevron(context),
+      onTap: () => _openSetting(context, const MusicRoute()),
+    )],
+  );
 }
 
 class _PrivacySection extends StatelessWidget {

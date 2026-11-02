@@ -61,6 +61,7 @@ class _RecordSheetState extends State<RecordSheet> {
   Future<void> _start() async {
     final granted = await _recorder.hasPermission();
     if (!granted) return;
+    await MediaPlaybackCoordinator.pauseMusic();
     final name = 'audio-${uuidV7()}.m4a';
     final path = AppFiles.getRealPath('audio', name);
     MediaHolds.add(.audio, name);

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:fast_image/fast_image.dart';
 import 'package:moodiary_data/moodiary_data.dart';
@@ -9,6 +10,7 @@ import 'package:moodiary_files/moodiary_files.dart';
 import 'package:moodiary_logging/moodiary_logging.dart';
 import 'package:moodiary_migration/moodiary_migration.dart'
     show EngineMigrationService;
+import 'package:moodiary_music/moodiary_music.dart';
 import 'package:moodiary_ml/moodiary_ml.dart' show EmbeddingModelManager;
 import 'package:moodiary_platform/moodiary_platform.dart';
 import 'package:moodiary_storage/moodiary_storage.dart';
@@ -23,6 +25,16 @@ Future<void> bootstrapPlatform() async {
     log: logger.d,
   );
   AppLogger.configure(logFilePath: AppFiles.getErrorLogPath());
+  if (Platform.isAndroid) {
+    try {
+      final music = await MusicController.create();
+      getIt.registerSingleton<MusicController>(music);
+      MediaPlaybackCoordinator.registerMusicPause(music.pause);
+    } catch (e, s) {
+      // A broken audio file must never prevent the diary from opening.
+      logger.e('music theme init failed', error: e, stackTrace: s);
+    }
+  }
 }
 
 void runStartupMaintenance() {

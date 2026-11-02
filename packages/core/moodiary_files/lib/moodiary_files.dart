@@ -9,5 +9,6 @@ export 'src/heif_decoder.dart';
 export 'src/media_exclusive.dart';
 export 'src/media_holds.dart';
 export 'src/media_manager.dart';
+export 'src/media_playback.dart';
 export 'src/media_type.dart';
 export 'src/storage_scanner.dart';

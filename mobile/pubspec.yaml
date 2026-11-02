@@ -82,7 +82,6 @@ flutter:
 
 flutter_gen:
   assets:
-    - assets/brand/
     exclude:
       - assets/licenses/**
   integrations:

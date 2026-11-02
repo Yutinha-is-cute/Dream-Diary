@@ -2,6 +2,8 @@ import 'package:moodiary_mobile/app/settings/presentation/about_page.dart';
 import 'package:moodiary_mobile/app/settings/presentation/accent_page.dart';
 import 'package:moodiary_mobile/app/settings/presentation/diary_setting_page.dart';
 import 'package:moodiary_mobile/app/settings/presentation/font_page.dart';
+import 'package:moodiary_mobile/app/settings/presentation/music/music_page.dart';
+import 'package:moodiary_mobile/app/settings/presentation/personalization/launcher_icon_page.dart';
 import 'package:moodiary_mobile/app/settings/presentation/services_page.dart';
 import 'package:moodiary_mobile/app/settings/presentation/setting_page.dart';
 import 'package:moodiary_mobile/app/settings/storage/storage_page.dart';
@@ -22,6 +24,16 @@ class AccentRoute extends MoodiaryRouteBase {
   static const String path = '/setting/accent';
 
   const AccentRoute() : super(path);
+}
+
+class LauncherIconRoute extends MoodiaryRouteBase {
+  static const String path = '/setting/launcher-icon';
+  const LauncherIconRoute() : super(path);
+}
+
+class MusicRoute extends MoodiaryRouteBase {
+  static const String path = '/setting/music';
+  const MusicRoute() : super(path);
 }
 
 class ServicesRoute extends MoodiaryRouteBase {
@@ -51,6 +63,8 @@ List<RouteBase> settingRoutes() => [
   ),
   GoRoute(path: FontRoute.path, builder: (_, _) => const FontPage()),
   GoRoute(path: AccentRoute.path, builder: (_, _) => const AccentPage()),
+  GoRoute(path: LauncherIconRoute.path, builder: (_, _) => const LauncherIconPage()),
+  GoRoute(path: MusicRoute.path, builder: (_, _) => const MusicPage()),
   GoRoute(path: ServicesRoute.path, builder: (_, _) => const ServicesPage()),
   GoRoute(path: AboutRoute.path, builder: (_, _) => const AboutPage()),
 ];

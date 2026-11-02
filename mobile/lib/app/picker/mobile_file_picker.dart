@@ -26,6 +26,21 @@ class MobileFilePicker implements IFilePicker {
   }
 
   @override
+  Future<List<XFile>> pickAudioFiles() async {
+    final result = await fp.FilePicker.pickFiles(
+      type: fp.FileType.audio,
+      androidOptions: const fp.FilePickerAndroidOptions(
+        safOptions: fp.AndroidSAFOptions(
+          grant: fp.AndroidSAFGrant.lifetime,
+          accessMode: fp.AndroidSAFAccessMode.readOnly,
+          persistGrant: true,
+        ),
+      ),
+    );
+    return result.map((file) => file.xFile).toList();
+  }
+
+  @override
   Future<XFile?> pickFile({List<String>? allowedExtensions}) async {
     final res = await fp.FilePicker.pickFile(
       type: allowedExtensions == null ? .any : .custom,

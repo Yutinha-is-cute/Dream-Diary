@@ -10,5 +10,8 @@ abstract class IFilePicker {
 
   Future<XFile?> pickAudio();
 
+  /// Document picker for the music theme. Empty list means user cancellation.
+  Future<List<XFile>> pickAudioFiles();
+
   Future<XFile?> pickFile({List<String>? allowedExtensions});
 }

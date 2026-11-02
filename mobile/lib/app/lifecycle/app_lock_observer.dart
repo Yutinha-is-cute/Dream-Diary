@@ -1,4 +1,6 @@
+import 'package:moodiary_di/moodiary_di.dart';
 import 'package:moodiary_mobile/app/router/router.dart';
+import 'package:moodiary_music/moodiary_music.dart';
 import 'package:moodiary_storage/moodiary_storage.dart';
 import 'package:mui/mui.dart';
 
@@ -38,6 +40,11 @@ class _AppLockObserverState extends State<AppLockObserver>
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state != .paused && state != .hidden) {
       return;
+    }
+    final music = getIt.maybeGet<MusicController>();
+    if (music != null) {
+      music.persistPosition();
+      music.onAppPaused();
     }
     if (_locking) return;
     if (!AppLockPin.enabled.value || MoodiaryKVs.lockNow.get() != true) {

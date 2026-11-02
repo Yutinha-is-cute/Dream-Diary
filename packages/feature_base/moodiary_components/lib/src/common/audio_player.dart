@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/foundation.dart';
+import 'package:moodiary_files/moodiary_files.dart';
 import 'package:moodiary_logging/moodiary_logging.dart';
 
 class AudioProgress {
@@ -91,6 +92,7 @@ class AudioPlaybackController {
 
   Future<void> toggle(String path) async {
     try {
+      await MediaPlaybackCoordinator.pauseMusic();
       if (activePath.value == path) {
         if (_playing) {
           _emit(playing: false);

@@ -203,10 +203,10 @@ class MusicController extends BaseAudioHandler with ChangeNotifier {
   @override Future<void> seek(Duration position) => _player.seek(position);
   @override Future<void> onTaskRemoved() => stop();
   @override Future<void> onNotificationDeleted() => stop();
-  @override Future<void> setRepeatMode(AudioServiceRepeatMode mode) =>
-      setRepeat(switch (mode) { AudioServiceRepeatMode.one => MusicRepeat.one,
+  @override Future<void> setRepeatMode(AudioServiceRepeatMode repeatMode) =>
+      setRepeat(switch (repeatMode) { AudioServiceRepeatMode.one => MusicRepeat.one,
         AudioServiceRepeatMode.none => MusicRepeat.off, _ => MusicRepeat.all });
-  @override Future<void> setShuffleMode(AudioServiceShuffleMode mode) => setShuffle(mode != AudioServiceShuffleMode.none);
+  @override Future<void> setShuffleMode(AudioServiceShuffleMode shuffleMode) => setShuffle(shuffleMode != AudioServiceShuffleMode.none);
 
   Future<void> select(int value) => _lock.synchronized(() async {
     if (value < 0 || value >= tracks.length) return;
@@ -314,6 +314,7 @@ class MusicController extends BaseAudioHandler with ChangeNotifier {
   });
 
   Future<void> persistPosition() async => MoodiaryKVs.musicPositionMs.set(position.inMilliseconds);
+  @override
   Future<void> dispose() async {
     if (_disposed) return; _disposed = true; _loadGeneration++;
     _persistTimer?.cancel();

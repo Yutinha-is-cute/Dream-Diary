@@ -100,7 +100,7 @@ class _MusicPageState extends State<MusicPage> {
       if (current != null) Card.filled(child: Padding(padding: const EdgeInsets.all(16), child: Column(children: [
         Icon(LucideIcons.music, size: 40, color: context.theme.colors.primary),
         const SizedBox(height: 12),
-        Text(current.title, textAlign: TextAlign.center, style: context.theme.typography.titleMedium.emphasized),
+        Text(current.title, textAlign: TextAlign.center, style: context.theme.typography.titleMedium.emphasized.onSurface),
         if (current.artist?.isNotEmpty == true || current.album?.isNotEmpty == true)
           Text([current.artist, current.album].whereType<String>().where((s) => s.isNotEmpty).join(' · '),
             textAlign: TextAlign.center, style: context.theme.typography.bodySmall.onSurfaceVariant),

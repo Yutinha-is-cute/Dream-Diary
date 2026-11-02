@@ -63,7 +63,8 @@ class _LauncherIconPageState extends State<LauncherIconPage> {
       final file = await getIt<IFilePicker>().pickFile(allowedExtensions: ['png', 'jpg', 'jpeg', 'webp']);
       if (file == null || !mounted) return;
       if (await file.length() > 20 * 1024 * 1024) {
-        toast.error(message: context.l10n.dream.iconTooLarge); return;
+        if (mounted) toast.error(message: context.l10n.dream.iconTooLarge);
+        return;
       }
       final bytes = await file.readAsBytes();
       final codec = await ui.instantiateImageCodec(bytes, targetWidth: 1024);
@@ -156,7 +157,8 @@ class _Preset extends StatelessWidget {
             color: selected ? context.theme.colors.primary : Colors.transparent)),
           child: _IconImage(image: image, circle: circle, monochrome: monochrome, size: 64)),
         const SizedBox(height: 8), Text(label),
-        if (selected) Icon(LucideIcons.check, size: 16, color: context.theme.colors.primary),
+        if (selected)
+          Icon(LucideIcons.check, size: 16, color: context.theme.colors.primary),
       ])));
 }
 
@@ -165,9 +167,11 @@ class _IconImage extends StatelessWidget {
   final String image; final bool circle, monochrome; final double size;
   @override Widget build(BuildContext context) {
     Widget child = Image.asset(image, width: size, height: size, fit: BoxFit.cover);
-    if (monochrome) child = ColorFiltered(colorFilter: const ColorFilter.matrix([
-      .2126,.7152,.0722,0,0, .2126,.7152,.0722,0,0, .2126,.7152,.0722,0,0, 0,0,0,1,0,
-    ]), child: child);
+    if (monochrome) {
+      child = ColorFiltered(colorFilter: const ColorFilter.matrix([
+        .2126,.7152,.0722,0,0, .2126,.7152,.0722,0,0, .2126,.7152,.0722,0,0, 0,0,0,1,0,
+      ]), child: child);
+    }
     return ClipRRect(borderRadius: BorderRadius.circular(circle ? size / 2 : size * .22), child: child);
   }
 }

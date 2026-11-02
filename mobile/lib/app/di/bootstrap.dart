@@ -10,8 +10,8 @@ import 'package:moodiary_files/moodiary_files.dart';
 import 'package:moodiary_logging/moodiary_logging.dart';
 import 'package:moodiary_migration/moodiary_migration.dart'
     show EngineMigrationService;
-import 'package:moodiary_music/moodiary_music.dart';
 import 'package:moodiary_ml/moodiary_ml.dart' show EmbeddingModelManager;
+import 'package:moodiary_music/moodiary_music.dart';
 import 'package:moodiary_platform/moodiary_platform.dart';
 import 'package:moodiary_storage/moodiary_storage.dart';
 import 'package:moodiary_sync/moodiary_sync.dart';

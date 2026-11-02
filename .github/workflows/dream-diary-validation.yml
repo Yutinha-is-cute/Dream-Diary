@@ -40,13 +40,17 @@ jobs:
       - name: Bootstrap pinned Pub workspace
         run: |
           set -o pipefail
-          dart pub global activate melos 8.2.2 2>&1 | tee bootstrap.log
-          echo "$HOME/.pub-cache/bin" >> "$GITHUB_PATH"
-          flutter pub get
+          {
+            dart pub global activate melos 8.2.2
+            echo "$HOME/.pub-cache/bin" >> "$GITHUB_PATH"
+            flutter pub get
+          } 2>&1 | tee bootstrap.log
       - name: Publish bootstrap diagnostics to this branch
         if: failure()
         run: |
           if [ -s bootstrap.log ]; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
             git add -f bootstrap.log
             git commit -m "ci: record bootstrap diagnostics [skip ci]"
             git push origin HEAD:arena/be4b9df4-dream-diary

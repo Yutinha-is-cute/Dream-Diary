@@ -38,6 +38,7 @@ class TranslationsEn extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _Translations$assistant$en assistant = _Translations$assistant$en._(_root);
 	@override late final _Translations$common$en common = _Translations$common$en._(_root);
 	@override late final _Translations$diary$en diary = _Translations$diary$en._(_root);
+	@override late final _Translations$dream$en dream = _Translations$dream$en._(_root);
 	@override late final _Translations$editor$en editor = _Translations$editor$en._(_root);
 	@override late final _Translations$export$en export = _Translations$export$en._(_root);
 	@override late final _Translations$insights$en insights = _Translations$insights$en._(_root);
@@ -237,6 +238,7 @@ class _Translations$app$en extends Translations$app$zh {
 	@override String get fontExists => 'That font is already installed';
 	@override String get routeErrorTitle => 'Page not found';
 	@override String get routeErrorBackHome => 'Back to home';
+	@override String get languageBrazilianPortuguese => 'Português (Brasil)';
 }
 
 // Path: assistant
@@ -536,7 +538,7 @@ class _Translations$common$en extends Translations$common$zh {
 	@override String categoryCount({required Object count}) => '${count} categories';
 	@override String get fileName => 'File name';
 	@override String get close => 'Close';
-	@override String get appName => 'Moodiary';
+	@override String get appName => 'Dream Diary';
 	@override String get configured => 'Configured';
 	@override String get notConfigured => 'Not configured';
 	@override String get copied => 'Copied to clipboard';
@@ -737,6 +739,66 @@ class _Translations$diary$en extends Translations$diary$zh {
 	@override String get calendarEmptyDay => 'Nothing written that day';
 	@override String get calendarYearView => 'Year view';
 	@override String get calendarMonthView => 'Month view';
+}
+
+// Path: dream
+class _Translations$dream$en extends Translations$dream$zh {
+	_Translations$dream$en._(TranslationsEn root) : this._root = root, super.internal(root);
+
+	final TranslationsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get iconTitle => 'Launcher icon';
+	@override String get iconDescription => 'Choose a real launcher icon for Dream Diary. Your launcher may take a moment to refresh and may apply its own shape or themed-icon treatment.';
+	@override String get iconDream => 'Dream';
+	@override String get iconMono => 'Monochrome';
+	@override String get iconPlum => 'Plum';
+	@override String get iconApplied => 'Icon updated. Your launcher may take a moment to refresh.';
+	@override String get iconError => 'Could not update the icon. Check that the image is valid and your launcher allows shortcuts.';
+	@override String get iconTooLarge => 'Choose an image smaller than 20 MB.';
+	@override String get iconMaskPreview => 'Circular mask preview';
+	@override String get iconMonochromePreview => 'Monochrome preview';
+	@override String get iconMonochromeHint => 'Android 13+ themed icons use the bundled monochrome layer. The preview is approximate.';
+	@override String get iconRestore => 'Restore Dream icon';
+	@override String get iconCropTitle => 'Adjust shortcut image';
+	@override String get iconCropHint => 'Drag to reposition and use the slider to zoom. The original image is never changed.';
+	@override String get shortcutTitle => 'Personal shortcut';
+	@override String get shortcutDescription => 'Use a photo from your files as an additional home-screen shortcut. This does not replace the main launcher icon.';
+	@override String get shortcutCreate => 'Create personal shortcut';
+	@override String get shortcutRequested => 'Shortcut request sent. Confirm it in your launcher if prompted.';
+	@override String get shortcutDeclined => 'Your launcher did not accept the shortcut request. The main icon is unchanged.';
+	@override String get shortcutRemove => 'Remove personal shortcut';
+	@override String get shortcutRemoveMessage => 'Disable this shortcut and delete only the private copy. Your original image is kept.';
+	@override String get shortcutLimit => 'Some launchers keep their own shortcut style or do not allow pinning. Existing Moodiary shortcuts may need to be added again after this fork update. Removing the app removes private copies.';
+	@override String get musicTitle => 'Music theme';
+	@override String get musicDescription => 'Play your own local audio while writing. Files are copied into Dream Diary private storage; originals are never changed or deleted.';
+	@override String get musicAndroidOnly => 'The music theme is available on Android.';
+	@override String get musicEnabled => 'Enable music theme';
+	@override String get musicBackground => 'Continue in background';
+	@override String get musicBackgroundHint => 'Shows media controls while playing. Off: pause when the app goes to the background. Swiping the app away always stops playback.';
+	@override String get musicAdd => 'Add audio files';
+	@override String get musicImporting => 'Copying audio…';
+	@override String get musicEmpty => 'No tracks yet. Add MP3, M4A, AAC, OGG, Opus, FLAC, WAV or WebM files.';
+	@override String musicImported({required Object count}) => 'Added ${count} track(s).';
+	@override String get musicImportError => 'Some files could not be imported. Check format, permissions and size (up to 200 MB per file).';
+	@override String get musicPlaybackError => 'This track could not be played. It may be missing, corrupted or unsupported. Remove it or add it again.';
+	@override String get musicPlaylistError => 'The playlist could not be read. The private audio files were kept.';
+	@override String get musicUnavailable => 'File unavailable';
+	@override String get musicRemove => 'Remove track';
+	@override String musicRemoveMessage({required Object title}) => 'Remove "${title}" from the playlist and delete its private copy? The original file is kept.';
+	@override String get musicPrevious => 'Previous';
+	@override String get musicNext => 'Next';
+	@override String get musicPlay => 'Play';
+	@override String get musicPause => 'Pause';
+	@override String get musicStop => 'Stop';
+	@override String get musicVolume => 'Volume';
+	@override String get musicShuffle => 'Shuffle';
+	@override String get musicRepeat => 'Repeat';
+	@override String get musicRepeatOff => 'Off';
+	@override String get musicRepeatAll => 'All';
+	@override String get musicRepeatOne => 'One';
+	@override String get musicNoAutoplay => 'Your playlist and position are restored, but playback only starts when you press Play.';
+	@override String get musicPrivacy => 'Private copies are not included in diary export/backup or sync. Clearing app data removes them.';
 }
 
 // Path: editor

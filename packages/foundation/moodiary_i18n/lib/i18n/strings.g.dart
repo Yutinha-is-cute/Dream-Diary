@@ -14,6 +14,7 @@ import 'package:slang_flutter/slang_flutter.dart';
 export 'package:slang_flutter/slang_flutter.dart';
 
 import 'strings_en.g.dart' deferred as l_en;
+import 'strings_pt_BR.g.dart' deferred as l_pt_BR;
 part 'strings_zh.g.dart';
 
 /// Supported locales.
@@ -24,7 +25,8 @@ part 'strings_zh.g.dart';
 /// - if (LocaleSettings.currentLocale == AppLocale.zh) // locale check
 enum AppLocale with BaseAppLocale<AppLocale, Translations> {
 	zh(languageCode: 'zh'),
-	en(languageCode: 'en');
+	en(languageCode: 'en'),
+	ptBr(languageCode: 'pt', countryCode: 'BR');
 
 	const AppLocale({
 		required this.languageCode,
@@ -56,6 +58,13 @@ enum AppLocale with BaseAppLocale<AppLocale, Translations> {
 					cardinalResolver: cardinalResolver,
 					ordinalResolver: ordinalResolver,
 				);
+			case AppLocale.ptBr:
+				await l_pt_BR.loadLibrary();
+				return l_pt_BR.TranslationsPtBr(
+					overrides: overrides,
+					cardinalResolver: cardinalResolver,
+					ordinalResolver: ordinalResolver,
+				);
 		}
 	}
 
@@ -74,6 +83,12 @@ enum AppLocale with BaseAppLocale<AppLocale, Translations> {
 				);
 			case AppLocale.en:
 				return l_en.TranslationsEn(
+					overrides: overrides,
+					cardinalResolver: cardinalResolver,
+					ordinalResolver: ordinalResolver,
+				);
+			case AppLocale.ptBr:
+				return l_pt_BR.TranslationsPtBr(
 					overrides: overrides,
 					cardinalResolver: cardinalResolver,
 					ordinalResolver: ordinalResolver,

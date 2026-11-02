@@ -40,6 +40,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final Translations$assistant$zh assistant = Translations$assistant$zh.internal(_root);
 	late final Translations$common$zh common = Translations$common$zh.internal(_root);
 	late final Translations$diary$zh diary = Translations$diary$zh.internal(_root);
+	late final Translations$dream$zh dream = Translations$dream$zh.internal(_root);
 	late final Translations$editor$zh editor = Translations$editor$zh.internal(_root);
 	late final Translations$export$zh export = Translations$export$zh.internal(_root);
 	late final Translations$insights$zh insights = Translations$insights$zh.internal(_root);
@@ -599,6 +600,9 @@ class Translations$app$zh {
 
 	/// zh: '返回首页'
 	String get routeErrorBackHome => '返回首页';
+
+	/// zh: 'Português (Brasil)'
+	String get languageBrazilianPortuguese => 'Português (Brasil)';
 }
 
 // Path: assistant
@@ -1461,8 +1465,8 @@ class Translations$common$zh {
 	/// zh: '关闭'
 	String get close => '关闭';
 
-	/// zh: 'Moodiary'
-	String get appName => 'Moodiary';
+	/// zh: 'Dream Diary'
+	String get appName => 'Dream Diary';
 
 	/// zh: '已配置'
 	String get configured => '已配置';
@@ -2038,6 +2042,168 @@ class Translations$diary$zh {
 
 	/// zh: '月视图'
 	String get calendarMonthView => '月视图';
+}
+
+// Path: dream
+class Translations$dream$zh {
+	Translations$dream$zh.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// zh: '启动器图标'
+	String get iconTitle => '启动器图标';
+
+	/// zh: '为 Dream Diary 选择真正的启动器图标。启动器可能需要片刻刷新，并可能应用自己的形状或主题图标。'
+	String get iconDescription => '为 Dream Diary 选择真正的启动器图标。启动器可能需要片刻刷新，并可能应用自己的形状或主题图标。';
+
+	/// zh: 'Dream'
+	String get iconDream => 'Dream';
+
+	/// zh: '单色'
+	String get iconMono => '单色';
+
+	/// zh: '梅紫'
+	String get iconPlum => '梅紫';
+
+	/// zh: '图标已更新，启动器可能需要片刻刷新。'
+	String get iconApplied => '图标已更新，启动器可能需要片刻刷新。';
+
+	/// zh: '无法更新图标。请检查图片是否有效，以及启动器是否允许快捷方式。'
+	String get iconError => '无法更新图标。请检查图片是否有效，以及启动器是否允许快捷方式。';
+
+	/// zh: '请选择小于 20 MB 的图片。'
+	String get iconTooLarge => '请选择小于 20 MB 的图片。';
+
+	/// zh: '圆形遮罩预览'
+	String get iconMaskPreview => '圆形遮罩预览';
+
+	/// zh: '单色预览'
+	String get iconMonochromePreview => '单色预览';
+
+	/// zh: 'Android 13+ 主题图标使用内置单色图层，预览仅供参考。'
+	String get iconMonochromeHint => 'Android 13+ 主题图标使用内置单色图层，预览仅供参考。';
+
+	/// zh: '恢复 Dream 图标'
+	String get iconRestore => '恢复 Dream 图标';
+
+	/// zh: '调整快捷方式图片'
+	String get iconCropTitle => '调整快捷方式图片';
+
+	/// zh: '拖动调整位置，使用滑块缩放。原图不会被修改。'
+	String get iconCropHint => '拖动调整位置，使用滑块缩放。原图不会被修改。';
+
+	/// zh: '个人快捷方式'
+	String get shortcutTitle => '个人快捷方式';
+
+	/// zh: '将文件中的照片用作额外的主屏幕快捷方式，不会替换主启动器图标。'
+	String get shortcutDescription => '将文件中的照片用作额外的主屏幕快捷方式，不会替换主启动器图标。';
+
+	/// zh: '创建个人快捷方式'
+	String get shortcutCreate => '创建个人快捷方式';
+
+	/// zh: '已发送快捷方式请求，请按启动器提示确认。'
+	String get shortcutRequested => '已发送快捷方式请求，请按启动器提示确认。';
+
+	/// zh: '启动器未接受快捷方式请求，主图标未更改。'
+	String get shortcutDeclined => '启动器未接受快捷方式请求，主图标未更改。';
+
+	/// zh: '移除个人快捷方式'
+	String get shortcutRemove => '移除个人快捷方式';
+
+	/// zh: '停用此快捷方式并仅删除私有副本？原图将保留。'
+	String get shortcutRemoveMessage => '停用此快捷方式并仅删除私有副本？原图将保留。';
+
+	/// zh: '某些启动器会保留自己的快捷方式样式或不支持固定。更新此分支后，旧 Moodiary 快捷方式可能需要重新添加。卸载应用会删除私有副本。'
+	String get shortcutLimit => '某些启动器会保留自己的快捷方式样式或不支持固定。更新此分支后，旧 Moodiary 快捷方式可能需要重新添加。卸载应用会删除私有副本。';
+
+	/// zh: '音乐主题'
+	String get musicTitle => '音乐主题';
+
+	/// zh: '写作时播放自己的本地音频。文件会复制到 Dream Diary 私有存储，原文件不会被修改或删除。'
+	String get musicDescription => '写作时播放自己的本地音频。文件会复制到 Dream Diary 私有存储，原文件不会被修改或删除。';
+
+	/// zh: '音乐主题仅适用于 Android。'
+	String get musicAndroidOnly => '音乐主题仅适用于 Android。';
+
+	/// zh: '启用音乐主题'
+	String get musicEnabled => '启用音乐主题';
+
+	/// zh: '后台继续播放'
+	String get musicBackground => '后台继续播放';
+
+	/// zh: '播放时显示媒体控制。关闭后，应用进入后台时暂停。从最近任务中划走应用始终会停止播放。'
+	String get musicBackgroundHint => '播放时显示媒体控制。关闭后，应用进入后台时暂停。从最近任务中划走应用始终会停止播放。';
+
+	/// zh: '添加音频文件'
+	String get musicAdd => '添加音频文件';
+
+	/// zh: '正在复制音频…'
+	String get musicImporting => '正在复制音频…';
+
+	/// zh: '还没有曲目。请添加 MP3、M4A、AAC、OGG、Opus、FLAC、WAV 或 WebM 文件。'
+	String get musicEmpty => '还没有曲目。请添加 MP3、M4A、AAC、OGG、Opus、FLAC、WAV 或 WebM 文件。';
+
+	/// zh: '已添加 {count} 首曲目。'
+	String musicImported({required Object count}) => '已添加 ${count} 首曲目。';
+
+	/// zh: '部分文件无法导入，请检查格式、权限和大小（每个文件最多 200 MB）。'
+	String get musicImportError => '部分文件无法导入，请检查格式、权限和大小（每个文件最多 200 MB）。';
+
+	/// zh: '无法播放此曲目，文件可能丢失、损坏或不受支持。请移除后重新添加。'
+	String get musicPlaybackError => '无法播放此曲目，文件可能丢失、损坏或不受支持。请移除后重新添加。';
+
+	/// zh: '无法读取播放列表，私有音频文件已保留。'
+	String get musicPlaylistError => '无法读取播放列表，私有音频文件已保留。';
+
+	/// zh: '文件不可用'
+	String get musicUnavailable => '文件不可用';
+
+	/// zh: '移除曲目'
+	String get musicRemove => '移除曲目';
+
+	/// zh: '从播放列表移除“{title}”并删除私有副本？原文件将保留。'
+	String musicRemoveMessage({required Object title}) => '从播放列表移除“${title}”并删除私有副本？原文件将保留。';
+
+	/// zh: '上一首'
+	String get musicPrevious => '上一首';
+
+	/// zh: '下一首'
+	String get musicNext => '下一首';
+
+	/// zh: '播放'
+	String get musicPlay => '播放';
+
+	/// zh: '暂停'
+	String get musicPause => '暂停';
+
+	/// zh: '停止'
+	String get musicStop => '停止';
+
+	/// zh: '音量'
+	String get musicVolume => '音量';
+
+	/// zh: '随机播放'
+	String get musicShuffle => '随机播放';
+
+	/// zh: '重复'
+	String get musicRepeat => '重复';
+
+	/// zh: '关闭'
+	String get musicRepeatOff => '关闭';
+
+	/// zh: '全部'
+	String get musicRepeatAll => '全部';
+
+	/// zh: '单曲'
+	String get musicRepeatOne => '单曲';
+
+	/// zh: '播放列表和进度会恢复，但只有点击播放后才会开始。'
+	String get musicNoAutoplay => '播放列表和进度会恢复，但只有点击播放后才会开始。';
+
+	/// zh: '私有副本不会包含在日记导出、备份或同步中。清除应用数据会将其删除。'
+	String get musicPrivacy => '私有副本不会包含在日记导出、备份或同步中。清除应用数据会将其删除。';
 }
 
 // Path: editor

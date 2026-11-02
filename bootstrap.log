@@ -1,0 +1,51 @@
+Resolving dependencies...
+Downloading packages...
++ ansi_styles 0.3.2+1
++ args 2.7.0
++ async 2.13.1
++ charcode 1.4.0
++ checked_yaml 2.0.4
++ cli_launcher 0.3.4+1
++ cli_util 0.5.2 (0.6.0 available)
++ collection 1.19.1
++ conventional_commit 0.6.1+1
++ ffi 2.2.0
++ file 7.0.1
++ glob 2.2.0
++ graphs 2.3.2
++ http 1.6.0
++ http_parser 4.1.2
++ io 1.1.0
++ json_annotation 4.12.0
++ melos 8.2.2 (8.10.0 available)
++ meta 1.19.0
++ mustache_template 2.0.6
++ path 1.9.1
++ petitparser 7.1.0
++ platform 3.2.0
++ pool 1.5.3
++ process 5.0.6
++ prompts 2.0.0
++ pub_semver 2.2.1
++ pub_updater 0.5.0 (0.6.0 available)
++ pubspec_parse 1.7.0
++ source_span 1.10.2
++ stack_trace 1.12.2
++ string_scanner 1.4.1
++ term_glyph 1.2.2
++ typed_data 1.4.0
++ web 1.1.2
++ xml 7.1.0
++ yaml 3.1.4
++ yaml_edit 2.2.4
+Building package executables...
+Built melos:melos.
+Installed executable melos.
+Activated melos 8.2.2.
+Error detected in pubspec.yaml:
+Error on line 86, column 5: While parsing a block collection, expected '-'.
+   ╷
+86 │     exclude:
+   │     ^
+   ╵
+Please correct the pubspec.yaml file at /home/runner/work/Dream-Diary/Dream-Diary/mobile/pubspec.yaml

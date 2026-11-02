@@ -37,9 +37,11 @@ jobs:
         with:
           node-version: '24'
       - run: corepack enable
-      - uses: bluefireteam/melos-action@v3
-        with:
-          melos-version: '8.2.2'
+      - name: Bootstrap pinned Pub workspace
+        run: |
+          dart pub global activate melos 8.2.2
+          echo "$HOME/.pub-cache/bin" >> "$GITHUB_PATH"
+          flutter pub get
       - name: Official localization generators
         run: |
           (cd packages/foundation/moodiary_i18n && dart run slang)

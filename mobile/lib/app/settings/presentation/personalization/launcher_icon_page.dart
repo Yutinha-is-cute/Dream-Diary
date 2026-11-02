@@ -194,7 +194,7 @@ class _CropDialogState extends State<_CropDialog> {
         Slider(value: _crop.zoom, min: 1, max: 4, onChanged: (v) => setState(() => _crop = _crop.zoomed(v))),
         Row(children: [Checkbox(value: _circle, onChanged: (v) => setState(() => _circle = v ?? false)),
           Expanded(child: Text(context.l10n.dream.iconMaskPreview))]),
-        Text(context.l10n.dream.iconCropHint, style: context.theme.typography.bodySmall),
+        Text(context.l10n.dream.iconCropHint, style: context.theme.typography.bodySmall.onSurfaceVariant),
       ]))), actions: [
         TextButton(onPressed: () => Navigator.pop(context), child: Text(context.l10n.common.cancel)),
         FilledButton(onPressed: () => Navigator.pop(context, _crop), child: Text(context.l10n.dream.shortcutCreate)),

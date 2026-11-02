@@ -1,5 +1,0 @@
-✅ ThemeData 只在 mui 的 buildMuiTheme 里构造。
-❌ 色板外的颜色/排版 1 处：
-  ✗ mobile/lib/app/settings/presentation/music/music_page.dart:94: 裸 TextStyle( → context.theme.typography.<级>.<角色>
-      }, style: TextStyle(color: context.theme.colors.onErrorContainer)))),
-  → 见 _themeBans；确属固定设计稿的整文件例外加进 _themeAllowlist 并写明理由。

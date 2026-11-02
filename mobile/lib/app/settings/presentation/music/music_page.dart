@@ -91,7 +91,7 @@ class _MusicPageState extends State<MusicPage> {
       if (music.error != null) Card.filled(color: context.theme.colors.errorContainer,
         child: Padding(padding: const EdgeInsets.all(12), child: Text(switch (music.error) {
           'import' => t.musicImportError, 'playlist' => t.musicPlaylistError, _ => t.musicPlaybackError,
-        }, style: TextStyle(color: context.theme.colors.onErrorContainer)))),
+        }, style: context.theme.typography.bodyMedium.onErrorContainer))),
       const SizedBox(height: 12),
       FilledButton.icon(onPressed: music.importing || !music.enabled ? null : () => _add(music),
         icon: music.importing ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2))

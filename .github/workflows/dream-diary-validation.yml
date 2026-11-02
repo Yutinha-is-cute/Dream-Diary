@@ -88,14 +88,29 @@ jobs:
             git push origin HEAD:arena/be4b9df4-dream-diary
           fi
       - name: Flutter tests
+        id: flutter_tests
+        continue-on-error: true
         run: |
-          root=$(python3 -c "import json;d=json.load(open('.dart_tool/package_config.json'));print(next(p['rootUri'] for p in d['packages'] if p['name']=='isar_plus_flutter_libs'))")
-          export ISAR_TEST_DYLIB="${root#file://}/linux/libisar_plus.so"
-          for p in fast_core fast_crypto fast_image fast_press fast_tokenizer fast_zip; do
-            yq -i ".hooks.user_defines.$p.build_assets = false" pubspec.yaml
-          done
-          dart tool/task.dart test --all
-          git checkout -- pubspec.yaml
+          set -o pipefail
+          {
+            root=$(python3 -c "import json;d=json.load(open('.dart_tool/package_config.json'));print(next(p['rootUri'] for p in d['packages'] if p['name']=='isar_plus_flutter_libs')"])
+            export ISAR_TEST_DYLIB="${root#file://}/linux/libisar_plus.so"
+            for p in fast_core fast_crypto fast_image fast_press fast_tokenizer fast_zip; do
+              yq -i ".hooks.user_defines.$p.build_assets = false" pubspec.yaml
+            done
+            dart tool/task.dart test --all
+            git checkout -- pubspec.yaml
+          } 2>&1 | tee test.log
+      - name: Publish test diagnostics to this branch
+        if: always()
+        run: |
+          if [ -s test.log ]; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git add -f test.log
+            git commit -m "ci: record Flutter test diagnostics [skip ci]"
+            git push origin HEAD:arena/be4b9df4-dream-diary
+          fi
       - uses: taiki-e/install-action@v2
         with:
           tool: cargo-about@0.9.2
@@ -105,6 +120,7 @@ jobs:
           ndk-version: r28c
           link-to-sdk: true
       - name: Build installable ARM64 APK (local debug signing only)
+        id: build_apk
         working-directory: mobile
         env:
           ANDROID_NDK_HOME: ${{ steps.ndk.outputs.ndk-path }}
@@ -112,7 +128,7 @@ jobs:
           set -o pipefail
           flutter build apk --flavor production --release --target-platform android-arm64 --obfuscate --split-debug-info=splitMap 2>&1 | tee ../build-apk.log
       - name: Publish APK build diagnostics to this branch
-        if: failure()
+        if: failure() && steps.build_apk.outcome == 'failure' 
         run: |
           if [ -s build-apk.log ]; then
             git config user.name 'github-actions[bot]'
@@ -128,6 +144,11 @@ jobs:
             mobile/build/app/outputs/flutter-apk/app-production-release.apk
             mobile/splitMap/
           if-no-files-found: error
+      - name: Enforce Flutter test result
+        if: steps.flutter_tests.outcome == 'failure'
+        run: |
+          echo "Flutter tests failed; see test.log committed to this branch."
+          exit 1
   rust:
     runs-on: ubuntu-latest
     timeout-minutes: 40

@@ -135,12 +135,15 @@ void main() {
           ]) {
             if (scope == .year) {
               // The lazy list can dispose the header while viewing the footer.
+              final yearOption = find.text(l10n.insights.year);
               await tester.scrollUntilVisible(
-                find.text(l10n.insights.year),
+                yearOption,
                 -300,
                 scrollable: find.byType(Scrollable).first,
               );
-              await tester.tap(find.text(l10n.insights.year));
+              await tester.ensureVisible(yearOption, alignment: 0.5);
+              await tester.pumpAndSettle();
+              await tester.tap(yearOption);
               await tester.pumpAndSettle();
             }
             final legend = find.byType(MHeatmapLegend);

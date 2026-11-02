@@ -5,19 +5,19 @@
   "empty": "Nenhuma mídia ainda",
   "rename": "Renomear",
   "imageCount(plural, param=count)": {
-    "one": "{count} Foto",
-    "other": "{count} Fotos"
+    "one": "{count} foto",
+    "other": "{count} fotos"
   },
   "audioCount(plural, param=count)": {
-    "one": "{count} Áudio",
-    "other": "{count} Áudios"
+    "one": "{count} áudio",
+    "other": "{count} áudios"
   },
   "videoCount(plural, param=count)": {
-    "one": "{count} Vídeo",
-    "other": "{count} Vídeos"
+    "one": "{count} vídeo",
+    "other": "{count} vídeos"
   },
   "fileCount(plural, param=count)": {
-    "one": "{count} Anexo",
-    "other": "{count} Anexos"
+    "one": "{count} anexo",
+    "other": "{count} anexos"
   }
 }

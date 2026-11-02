@@ -1,0 +1,25 @@
+name: moodiary_music
+description: "Dream Diary local music theme, private playlist and Android media session."
+version: 0.0.1
+publish_to: none
+resolution: workspace
+environment:
+  sdk: ">=3.13.0"
+  flutter: ">=3.47.0"
+dependencies:
+  flutter:
+    sdk: flutter
+  moodiary_files: 0.0.1
+  moodiary_storage: 0.0.1
+  moodiary_platform: 0.0.1
+  moodiary_utils: 0.0.1
+  moodiary_logging: 0.0.1
+  audio_metadata_reader: 1.7.1
+  audio_service: 0.18.19
+  just_audio: 0.10.6
+  path: 1.9.1
+  synchronized: 3.4.1+2
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  moodiary_lint: 0.0.1

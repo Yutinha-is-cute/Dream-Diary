@@ -124,7 +124,17 @@ enum MoodiaryKVs<T extends Object> {
   cachePath<String>(),
   uuid<String>(),
   local<bool>(defaultValue: false),
-  language<String>(defaultValue: 'system');
+  language<String>(defaultValue: 'system'),
+
+  // Additive Dream Diary preferences; existing keys and migration are untouched.
+  launcherIcon<String>(defaultValue: 'dream'),
+  musicEnabled<bool>(defaultValue: true),
+  musicBackground<bool>(defaultValue: false),
+  musicShuffle<bool>(defaultValue: false),
+  musicRepeat<int>(defaultValue: 1),
+  musicVolume<double>(defaultValue: 0.5),
+  musicIndex<int>(defaultValue: 0),
+  musicPositionMs<int>(defaultValue: 0);
 
   final T? defaultValue;
 

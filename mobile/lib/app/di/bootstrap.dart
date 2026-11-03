@@ -31,7 +31,7 @@ Future<void> bootstrapPlatform() async {
 Future<void> bootstrapMusic() async {
   if (!Platform.isAndroid) return;
   try {
-    final music = await MusicController.create();
+    final music = await MusicController.create(coldStart: true);
     getIt.registerSingleton<MusicController>(music);
     MediaPlaybackCoordinator.registerMusicPause(music.pause);
   } catch (e, s) {

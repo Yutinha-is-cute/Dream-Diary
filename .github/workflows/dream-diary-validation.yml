@@ -13,8 +13,51 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  music-policy-tests:
+    name: Music theme policy tests (read-only)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: false
+          persist-credentials: false
+
+      - name: Flutter pin
+        id: flutter
+        run: echo "version=$(jq -r .flutter .fvmrc)" >> "$GITHUB_OUTPUT"
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ steps.flutter.outputs.version }}
+
+      - name: Bootstrap pinned Pub workspace
+        run: |
+          set -o pipefail
+          dart pub global activate melos 8.2.2
+          echo "$HOME/.pub-cache/bin" >> "$GITHUB_PATH"
+          flutter pub get
+
+      - name: Verify official slang output
+        working-directory: packages/foundation/moodiary_i18n
+        run: |
+          set -euo pipefail
+          dart run slang
+          git diff --exit-code -- lib/i18n
+
+      - name: Disable Rust build hooks for Dart-only tests
+        run: |
+          set -euo pipefail
+          sed -i 's/{build_assets: true}/{build_assets: false}/g' pubspec.yaml
+          flutter pub get
+
+      - name: Run music unit tests
+        working-directory: packages/feature/moodiary_music
+        run: flutter test
+
   build-apk:
     name: Build production ARM64 APK with R8 mapping
+    needs: music-policy-tests
     runs-on: ubuntu-latest
     timeout-minutes: 90
     steps:

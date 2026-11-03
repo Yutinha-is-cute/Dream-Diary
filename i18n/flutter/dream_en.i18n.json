@@ -48,6 +48,6 @@
   "musicRepeatOff": "Off",
   "musicRepeatAll": "All",
   "musicRepeatOne": "One",
-  "musicNoAutoplay": "Your playlist and position are restored, but playback only starts when you press Play.",
+  "musicNoAutoplay": "Your playlist, current track and settings are restored. After reopening the app, the same track starts from the beginning; with PIN enabled, playback starts only after unlock. Normal pauses continue from where they stopped.",
   "musicPrivacy": "Private copies are not included in diary export/backup or sync. Clearing app data removes them."
 }

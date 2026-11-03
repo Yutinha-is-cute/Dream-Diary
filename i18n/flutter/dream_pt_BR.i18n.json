@@ -48,6 +48,6 @@
   "musicRepeatOff": "Desativada",
   "musicRepeatAll": "Todas",
   "musicRepeatOne": "Uma faixa",
-  "musicNoAutoplay": "A playlist e a posição são restauradas, mas a reprodução só começa quando você toca em Reproduzir.",
+  "musicNoAutoplay": "A playlist, a faixa atual e as configurações são restauradas. Ao reabrir o app, a mesma faixa começa do início; com PIN ativo, a reprodução só começa após desbloquear. Pausas normais continuam do ponto em que pararam.",
   "musicPrivacy": "As cópias privadas não entram na exportação, no backup nem na sincronização do diário. Limpar os dados do app as remove."
 }

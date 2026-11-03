@@ -797,7 +797,7 @@ class _Translations$dream$pt_BR extends Translations$dream$zh {
 	@override String get musicRepeatOff => 'Desativada';
 	@override String get musicRepeatAll => 'Todas';
 	@override String get musicRepeatOne => 'Uma faixa';
-	@override String get musicNoAutoplay => 'A playlist e a posição são restauradas, mas a reprodução só começa quando você toca em Reproduzir.';
+	@override String get musicNoAutoplay => 'A playlist, a faixa atual e as configurações são restauradas. Ao reabrir o app, a mesma faixa começa do início; com PIN ativo, a reprodução só começa após desbloquear. Pausas normais continuam do ponto em que pararam.';
 	@override String get musicPrivacy => 'As cópias privadas não entram na exportação, no backup nem na sincronização do diário. Limpar os dados do app as remove.';
 }
 

@@ -15,14 +15,17 @@ import 'package:moodiary_utils/moodiary_utils.dart';
 import 'package:path/path.dart' as p;
 import 'package:synchronized/synchronized.dart';
 
+import 'music_resume_policy.dart';
 import 'music_track.dart';
 
-/// One player, one media session. Initialization never starts playback.
+/// One player, one media session. Automatic starts are decided by
+/// [MusicResumePolicy]; the player itself is unchanged.
 class MusicController extends BaseAudioHandler with ChangeNotifier {
   MusicController._(this.directory) : _player = AudioPlayer(maxSkipsOnError: 1000);
   final Directory directory;
   final AudioPlayer _player;
   final _lock = Lock();
+  final MusicResumePolicy _resumePolicy = MusicResumePolicy();
   final _subs = <StreamSubscription<dynamic>>[];
   List<MusicTrack> tracks = [];
   bool ready = false;
@@ -41,15 +44,15 @@ class MusicController extends BaseAudioHandler with ChangeNotifier {
   bool _disposed = false;
   Timer? _persistTimer;
 
-  static Future<MusicController> create() async {
+  static Future<MusicController> create({bool coldStart = false}) async {
     final dir = Directory(p.join(PlatformService.get().applicationSupportPath,
         'dream_diary', 'music'));
     final controller = MusicController._(dir);
-    await controller._init();
+    await controller._init(coldStart: coldStart);
     return controller;
   }
 
-  Future<void> _init() async {
+  Future<void> _init({bool coldStart = false}) async {
     await directory.create(recursive: true);
     try {
       final file = File(p.join(directory.path, 'playlist.json'));
@@ -65,7 +68,12 @@ class MusicController extends BaseAudioHandler with ChangeNotifier {
       logger.e('music playlist load failed', error: e, stackTrace: s);
     }
     index = MoodiaryKVs.musicIndex.get()!.clamp(0, tracks.isEmpty ? 0 : tracks.length - 1);
-    position = Duration(milliseconds: MoodiaryKVs.musicPositionMs.get()!.clamp(0, 1 << 62));
+    // A cold app start keeps the selected track but deliberately ignores the
+    // pre-close position. Warm lifecycle pauses keep using the live position.
+    position = coldStart
+        ? Duration.zero
+        : Duration(milliseconds: MoodiaryKVs.musicPositionMs.get()!.clamp(0, 1 << 62));
+    if (coldStart) MoodiaryKVs.musicPositionMs.set(0);
     await AudioService.init(builder: () => this, config: const AudioServiceConfig(
       androidNotificationChannelId: 'cn.yooss.moodiary.music',
       androidNotificationChannelName: 'Dream Diary · Tema musical',
@@ -90,6 +98,7 @@ class MusicController extends BaseAudioHandler with ChangeNotifier {
     await _player.setLoopMode(_loopMode);
     await _reload(preload: false);
     if (tracks.isNotEmpty) await _player.seek(position, index: index);
+    if (coldStart) _resumePolicy.scheduleColdStart();
     _persistTimer = Timer.periodic(const Duration(seconds: 5), (_) => persistPosition());
     ready = true;
     notifyListeners();
@@ -169,6 +178,8 @@ class MusicController extends BaseAudioHandler with ChangeNotifier {
   }
 
   @override Future<void> play() async {
+    // A manual play replaces any pending automatic start.
+    _resumePolicy.cancel();
     if (!enabled || tracks.isEmpty) return;
     error = null;
     try {
@@ -184,9 +195,11 @@ class MusicController extends BaseAudioHandler with ChangeNotifier {
     } catch (_) { error = 'playback'; notifyListeners(); }
   }
   @override Future<void> pause() async {
-    await _player.pause(); MoodiaryKVs.musicPositionMs.set(position.inMilliseconds);
+    _resumePolicy.cancelLifecycleResume();
+    await _player.pause(); await persistPosition();
   }
   @override Future<void> stop() async {
+    _resumePolicy.cancel();
     await pause(); await _player.stop(); await super.stop();
   }
   @override Future<void> skipToNext() async {
@@ -228,13 +241,38 @@ class MusicController extends BaseAudioHandler with ChangeNotifier {
   }
   Future<void> setEnabled(bool value) async {
     enabled = value; MoodiaryKVs.musicEnabled.set(value);
-    if (!value) await pause(); notifyListeners();
+    if (!value) { _resumePolicy.cancel(); await pause(); }
+    notifyListeners();
   }
   Future<void> setBackground(bool value) async {
     background = value; MoodiaryKVs.musicBackground.set(value);
     if (!value) await pause(); notifyListeners();
   }
-  Future<void> onAppPaused() async { if (!background) await pause(); }
+  Future<void> onAppPaused() async {
+    final wasPlaying = playing;
+    await persistPosition();
+    if (!background) {
+      await pause();
+      _resumePolicy.onLifecyclePause(wasPlaying: wasPlaying);
+    } else {
+      _resumePolicy.cancelLifecycleResume();
+    }
+  }
+
+  /// Called when the app returns to the foreground or the PIN gate is cleared.
+  /// A cold start replays the saved track from zero; a warm lifecycle pause
+  /// continues from the paused position. Background playback is untouched.
+  Future<void> onAppResumed({required bool locked}) async {
+    if (!ready || _disposed) return;
+    final action = _resumePolicy.consume(
+      locked: locked, enabled: enabled, hasTracks: tracks.isNotEmpty);
+    if (action == MusicAutoStart.fromBeginning) {
+      await seek(Duration.zero);
+      await play();
+    } else if (action == MusicAutoStart.resumePosition) {
+      await play();
+    }
+  }
 
   /// SAF picker supplies a readable stream; copy it, never the user's original.
   Future<int> importFiles(List<XFile> files) => _lock.synchronized(() async {
@@ -313,7 +351,10 @@ class MusicController extends BaseAudioHandler with ChangeNotifier {
     notifyListeners();
   });
 
-  Future<void> persistPosition() async => MoodiaryKVs.musicPositionMs.set(position.inMilliseconds);
+  Future<void> persistPosition() async {
+    MoodiaryKVs.musicIndex.set(index);
+    MoodiaryKVs.musicPositionMs.set(position.inMilliseconds);
+  }
   @override
   Future<void> dispose() async {
     if (_disposed) return; _disposed = true; _loadGeneration++;

@@ -16,6 +16,7 @@ class AppLockObserver extends StatefulWidget {
 class _AppLockObserverState extends State<AppLockObserver>
     with WidgetsBindingObserver {
   bool _locking = false;
+  bool _appPaused = false;
 
   static const Set<String> _skip = {
     LockRoute.path,
@@ -28,19 +29,42 @@ class _AppLockObserverState extends State<AppLockObserver>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    router.routerDelegate.addListener(_onRouteChanged);
+    WidgetsBinding.instance.addPostFrameCallback((_) => _onRouteChanged());
   }
 
   @override
   void dispose() {
+    router.routerDelegate.removeListener(_onRouteChanged);
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
+  /// The PIN gate clears by navigating away from [LockRoute]. Re-evaluate the
+  /// pending music start on that route change as well as on lifecycle resume.
+  void _onRouteChanged() {
+    if (!mounted || _appPaused) return;
+    final music = getIt.maybeGet<MusicController>();
+    if (music == null) return;
+    final configuration = router.routerDelegate.currentConfiguration;
+    if (configuration.matches.isEmpty) return;
+    music.onAppResumed(locked: configuration.uri.path == LockRoute.path);
+  }
+
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state != .paused && state != .hidden) {
+    if (state == AppLifecycleState.resumed) {
+      _appPaused = false;
+      _onRouteChanged();
       return;
     }
+    if (state != AppLifecycleState.paused && state != AppLifecycleState.hidden) {
+      return;
+    }
+    // Android can emit hidden then paused; only capture the playing state once.
+    if (_appPaused) return;
+    _appPaused = true;
+
     final music = getIt.maybeGet<MusicController>();
     if (music != null) {
       music.persistPosition();

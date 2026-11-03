@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:moodiary_music/moodiary_music.dart';
+import 'package:moodiary_music/src/music_track.dart';
 
 void main() {
   test('track manifest round trip and path traversal rejection', () {

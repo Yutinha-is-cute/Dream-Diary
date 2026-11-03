@@ -797,7 +797,7 @@ class _Translations$dream$en extends Translations$dream$zh {
 	@override String get musicRepeatOff => 'Off';
 	@override String get musicRepeatAll => 'All';
 	@override String get musicRepeatOne => 'One';
-	@override String get musicNoAutoplay => 'Your playlist and position are restored, but playback only starts when you press Play.';
+	@override String get musicNoAutoplay => 'Your playlist, current track and settings are restored. After reopening the app, the same track starts from the beginning; with PIN enabled, playback starts only after unlock. Normal pauses continue from where they stopped.';
 	@override String get musicPrivacy => 'Private copies are not included in diary export/backup or sync. Clearing app data removes them.';
 }
 

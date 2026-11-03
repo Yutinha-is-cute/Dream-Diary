@@ -48,6 +48,6 @@
   "musicRepeatOff": "关闭",
   "musicRepeatAll": "全部",
   "musicRepeatOne": "单曲",
-  "musicNoAutoplay": "播放列表和进度会恢复，但只有点击播放后才会开始。",
+  "musicNoAutoplay": "播放列表、当前曲目和设置会恢复。重新打开应用后，同一曲目会从头开始播放；启用 PIN 时，解锁后才会开始播放。正常暂停后会从停止处继续。",
   "musicPrivacy": "私有副本不会包含在日记导出、备份或同步中。清除应用数据会将其删除。"
 }
